@@ -15,9 +15,9 @@ class InvoiceService
         private readonly InvoiceRepositoryInterface $invoiceRepository
     ) {}
 
-    public function getAllInvoices(): LengthAwarePaginator
+    public function getAllInvoices(?string $invoiceNumber = null, ?int $marketerId = null, ?int $storeId = null): LengthAwarePaginator
     {
-        return $this->invoiceRepository->getAll();
+        return $this->invoiceRepository->getAll($invoiceNumber, $marketerId, $storeId);
     }
 
     public function createInvoice(CreateInvoiceDTO $invoiceData): Invoice
@@ -35,13 +35,17 @@ class InvoiceService
     {
         $invoice = $this->createInvoice($invoiceData);
         
+        $totalAmount = 0;
         foreach ($items as $item) {
             $invoice->items()->create([
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);
+            $totalAmount += $item['price'] * $item['quantity'];
         }
+        
+        $invoice->update(['total_amount' => $totalAmount]);
         
         return $invoice->fresh(['items']);
     }
@@ -66,13 +70,17 @@ class InvoiceService
         $invoice = $this->updateInvoice($invoiceId, $invoiceData);
         $invoice->items()->delete();
         
+        $totalAmount = 0;
         foreach ($items as $item) {
             $invoice->items()->create([
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
             ]);
+            $totalAmount += $item['price'] * $item['quantity'];
         }
+        
+        $invoice->update(['total_amount' => $totalAmount]);
         
         return $invoice->fresh(['items']);
     }

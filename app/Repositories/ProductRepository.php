@@ -10,9 +10,15 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function getAll(): LengthAwarePaginator
+    public function getAll(?string $search = null): LengthAwarePaginator
     {
-        return Product::orderBy('created_at', 'desc')->paginate(15);
+        $query = Product::query();
+        
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+        
+        return $query->orderBy('created_at', 'desc')->paginate(15);
     }
 
     public function findById(int $productId): ?Product

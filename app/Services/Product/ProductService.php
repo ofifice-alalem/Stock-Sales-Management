@@ -15,9 +15,9 @@ class ProductService
         private readonly ProductRepositoryInterface $productRepository
     ) {}
 
-    public function getAllProducts(): LengthAwarePaginator
+    public function getAllProducts(?string $search = null): LengthAwarePaginator
     {
-        return $this->productRepository->getAll();
+        return $this->productRepository->getAll($search);
     }
 
     public function createProduct(CreateProductDTO $productData): Product
@@ -25,6 +25,7 @@ class ProductService
         return $this->productRepository->create([
             'name' => $productData->name,
             'unit' => $productData->unit,
+            'price' => $productData->price,
             'description' => $productData->description,
         ]);
     }
@@ -34,6 +35,7 @@ class ProductService
         return $this->productRepository->update($productId, [
             'name' => $productData->name,
             'unit' => $productData->unit,
+            'price' => $productData->price,
             'description' => $productData->description,
         ]);
     }

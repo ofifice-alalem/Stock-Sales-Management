@@ -18,9 +18,17 @@ class ProductController extends Controller
         private readonly ProductService $productService
     ) {}
 
-    public function index(): View
+    public function index(Request $request)
     {
-        $products = $this->productService->getAllProducts();
+        if ($request->has('ajax')) {
+            $products = Product::where('name', 'like', '%' . $request->input('search') . '%')
+                ->orderBy('name')
+                ->limit(50)
+                ->get();
+            return response()->json($products);
+        }
+        
+        $products = $this->productService->getAllProducts($request->input('search'));
         return view('admin.products.index', compact('products'));
     }
 
@@ -34,12 +42,14 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'unit' => 'required|string|max:50',
+            'price' => 'required|numeric|min:0',
             'description' => 'required|string',
         ]);
 
         $productDTO = new CreateProductDTO(
             name: $request->input('name'),
             unit: $request->input('unit'),
+            price: (float)$request->input('price'),
             description: $request->input('description')
         );
 
@@ -63,12 +73,14 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:100',
             'unit' => 'required|string|max:50',
+            'price' => 'required|numeric|min:0',
             'description' => 'required|string',
         ]);
 
         $productDTO = new CreateProductDTO(
             name: $request->input('name'),
             unit: $request->input('unit'),
+            price: (float)$request->input('price'),
             description: $request->input('description')
         );
 

@@ -11,6 +11,14 @@ class Product extends Model
     protected $fillable = [
         'name',
         'unit',
+        'price',
         'description',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'decimal:2',
+        ];
+    }
 }

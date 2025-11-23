@@ -10,9 +10,23 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
-    public function getAll(): LengthAwarePaginator
+    public function getAll(?string $invoiceNumber = null, ?int $marketerId = null, ?int $storeId = null): LengthAwarePaginator
     {
-        return Invoice::with(['store', 'marketer', 'items'])->orderBy('created_at', 'desc')->paginate(15);
+        $query = Invoice::with(['store', 'marketer', 'items']);
+        
+        if ($invoiceNumber) {
+            $query->where('invoice_number', 'like', '%' . $invoiceNumber . '%');
+        }
+        
+        if ($marketerId) {
+            $query->where('marketer_id', $marketerId);
+        }
+        
+        if ($storeId) {
+            $query->where('store_id', $storeId);
+        }
+        
+        return $query->orderBy('created_at', 'desc')->paginate(15);
     }
 
     public function findById(int $invoiceId): Invoice

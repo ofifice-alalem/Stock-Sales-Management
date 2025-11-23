@@ -9,6 +9,7 @@ readonly class CreateProductDTO
     public function __construct(
         public string $name,
         public string $unit,
+        public float $price,
         public string $description
     ) {}
 }

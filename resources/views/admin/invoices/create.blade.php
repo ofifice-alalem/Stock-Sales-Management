@@ -10,41 +10,34 @@
     <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl mb-6">
         <h2 class="text-xl font-bold text-white mb-4">بيانات الفاتورة</h2>
             
-            <div class="mb-4">
-                <label for="invoice_number" class="block text-sm font-medium text-white mb-2">رقم الفاتورة</label>
-                <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number') }}" 
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white @error('invoice_number') border-red-500 @enderror" required>
-                @error('invoice_number')
-                    <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="marketer_id" class="block text-sm font-medium text-white mb-2">المسوق</label>
+                    <select id="marketer_id" name="marketer_id" 
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white @error('marketer_id') border-red-500 @enderror" required>
+                        <option value="">اختر المسوق</option>
+                        @foreach($marketers as $marketer)
+                            <option value="{{ $marketer->id }}" {{ old('marketer_id') == $marketer->id ? 'selected' : '' }}>{{ $marketer->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('marketer_id')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            <div class="mb-4">
-                <label for="marketer_id" class="block text-sm font-medium text-white mb-2">المسوق</label>
-                <select id="marketer_id" name="marketer_id" 
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white @error('marketer_id') border-red-500 @enderror" required>
-                    <option value="">اختر المسوق</option>
-                    @foreach($marketers as $marketer)
-                        <option value="{{ $marketer->id }}" {{ old('marketer_id') == $marketer->id ? 'selected' : '' }}>{{ $marketer->name }}</option>
-                    @endforeach
-                </select>
-                @error('marketer_id')
-                    <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="mb-4">
-                <label for="store_id" class="block text-sm font-medium text-white mb-2">المحل</label>
-                <select id="store_id" name="store_id" 
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white @error('store_id') border-red-500 @enderror" required>
-                    <option value="">اختر المحل</option>
-                    @foreach($stores as $store)
-                        <option value="{{ $store->id }}" {{ old('store_id') == $store->id ? 'selected' : '' }}>{{ $store->name }}</option>
-                    @endforeach
-                </select>
-                @error('store_id')
-                    <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                <div>
+                    <label for="store_id" class="block text-sm font-medium text-white mb-2">المحل</label>
+                    <select id="store_id" name="store_id" 
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white @error('store_id') border-red-500 @enderror" required>
+                        <option value="">اختر المحل</option>
+                        @foreach($stores as $store)
+                            <option value="{{ $store->id }}" {{ old('store_id') == $store->id ? 'selected' : '' }}>{{ $store->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('store_id')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
     </div>
@@ -60,7 +53,7 @@
             </button>
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="overflow-visible">
             <table class="w-full">
                 <thead class="bg-white/5">
                     <tr>
@@ -74,18 +67,26 @@
                 <tbody id="productsTable" class="divide-y divide-white/5">
                     <tr class="product-row">
                         <td class="px-4 py-3">
-                            <select name="items[0][product_id]" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white" required>
-                                <option value="">اختر منتج</option>
-                                @foreach($products as $product)
-                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="relative">
+                                <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." autocomplete="off">
+                                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                                    @foreach($products as $product)
+                                        <div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="{{ $product->id }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-white font-medium">{{ $product->name }}</span>
+                                                <span class="text-green-400 font-bold">{{ number_format($product->price, 2) }} جنيه</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <input type="hidden" name="items[0][product_id]" class="product-id" required>
                         </td>
                         <td class="px-4 py-3">
                             <input type="number" name="items[0][quantity]" value="1" min="1" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
                         </td>
                         <td class="px-4 py-3">
-                            <input type="number" step="0.01" name="items[0][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" required>
+                            <input type="number" step="0.01" name="items[0][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
                         </td>
                         <td class="px-4 py-3 text-white font-medium item-total">0.00</td>
                         <td class="px-4 py-3 text-center">
@@ -128,22 +129,26 @@ function addProductRow() {
     const row = document.createElement('tr');
     row.className = 'product-row';
     
-    let productOptions = '<option value="">اختر منتج</option>';
+    let productOptions = '';
     products.forEach(product => {
-        productOptions += `<option value="${product.id}">${product.name}</option>`;
+        productOptions += `<div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="${product.id}" data-price="${product.price}" data-name="${product.name}"><div class="flex justify-between items-center"><span class="text-white font-medium">${product.name}</span><span class="text-green-400 font-bold">${parseFloat(product.price).toFixed(2)} جنيه</span></div></div>`;
     });
     
     row.innerHTML = `
         <td class="px-4 py-3">
-            <select name="items[${productIndex}][product_id]" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white" required>
-                ${productOptions}
-            </select>
+            <div class="relative">
+                <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." autocomplete="off">
+                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                    ${productOptions}
+                </div>
+            </div>
+            <input type="hidden" name="items[${productIndex}][product_id]" class="product-id" required>
         </td>
         <td class="px-4 py-3">
             <input type="number" name="items[${productIndex}][quantity]" value="1" min="1" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
         </td>
         <td class="px-4 py-3">
-            <input type="number" step="0.01" name="items[${productIndex}][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" required>
+            <input type="number" step="0.01" name="items[${productIndex}][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
         </td>
         <td class="px-4 py-3 text-white font-medium item-total">0.00</td>
         <td class="px-4 py-3 text-center">
@@ -188,6 +193,49 @@ function calculateTotal() {
 function attachEventListeners(row) {
     row.querySelector('.quantity-input').addEventListener('input', calculateTotal);
     row.querySelector('.price-input').addEventListener('input', calculateTotal);
+    
+    const productSearch = row.querySelector('.product-search');
+    const productDropdown = row.querySelector('.product-dropdown');
+    const productIdInput = row.querySelector('.product-id');
+    
+    productSearch.addEventListener('focus', function() {
+        productDropdown.classList.remove('hidden');
+        filterProducts(productDropdown, '');
+    });
+    
+    productSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        filterProducts(productDropdown, searchTerm);
+        productDropdown.classList.remove('hidden');
+    });
+    
+    productDropdown.querySelectorAll('.product-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            const productName = this.getAttribute('data-name');
+            const price = this.getAttribute('data-price');
+            
+            productSearch.value = productName;
+            productIdInput.value = productId;
+            productDropdown.classList.add('hidden');
+            row.querySelector('.price-input').value = price || 0;
+            calculateTotal();
+        });
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!row.contains(e.target)) {
+            productDropdown.classList.add('hidden');
+        }
+    });
+}
+
+function filterProducts(dropdown, searchTerm) {
+    const options = dropdown.querySelectorAll('.product-option');
+    options.forEach(option => {
+        const name = option.getAttribute('data-name').toLowerCase();
+        option.style.display = name.includes(searchTerm) ? 'block' : 'none';
+    });
 }
 
 document.querySelectorAll('.product-row').forEach(attachEventListeners);

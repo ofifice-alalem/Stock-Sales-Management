@@ -27,6 +27,15 @@
                 @enderror
             </div>
 
+            <div class="mb-4">
+                <label for="price" class="block text-sm font-medium text-white mb-2">السعر</label>
+                <input type="number" step="0.01" id="price" name="price" value="{{ old('price', $product->price) }}" min="0"
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-white @error('price') border-red-500 @enderror" required>
+                @error('price')
+                    <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div class="mb-6">
                 <label for="description" class="block text-sm font-medium text-white mb-2">الوصف</label>
                 <textarea id="description" name="description" rows="4" 

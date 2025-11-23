@@ -61,7 +61,7 @@
             </button>
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="overflow-visible">
             <table class="w-full">
                 <thead class="bg-white/5">
                     <tr>
@@ -77,17 +77,26 @@
                     <tr class="product-row">
                         <td class="px-4 py-3">
                             <input type="hidden" name="items[{{ $index }}][id]" value="{{ $item->id }}">
-                            <select name="items[{{ $index }}][product_id]" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white" required>
-                                @foreach($products as $product)
-                                    <option value="{{ $product->id }}" {{ $item->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="relative">
+                                <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." value="{{ $item->product->name }}" autocomplete="off">
+                                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                                    @foreach($products as $product)
+                                        <div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="{{ $product->id }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-white font-medium">{{ $product->name }}</span>
+                                                <span class="text-green-400 font-bold">{{ number_format($product->price, 2) }} جنيه</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <input type="hidden" name="items[{{ $index }}][product_id]" class="product-id" value="{{ $item->product_id }}" required>
                         </td>
                         <td class="px-4 py-3">
                             <input type="number" name="items[{{ $index }}][quantity]" value="{{ $item->quantity }}" min="1" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
                         </td>
                         <td class="px-4 py-3">
-                            <input type="number" step="0.01" name="items[{{ $index }}][price]" value="{{ $item->price }}" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" required>
+                            <input type="number" step="0.01" name="items[{{ $index }}][price]" value="{{ $item->price }}" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
                         </td>
                         <td class="px-4 py-3 text-white font-medium item-total">{{ number_format($item->price * $item->quantity, 2) }}</td>
                         <td class="px-4 py-3 text-center">
@@ -131,22 +140,26 @@ function addProductRow() {
     const row = document.createElement('tr');
     row.className = 'product-row';
     
-    let productOptions = '<option value="">اختر منتج</option>';
+    let productOptions = '';
     products.forEach(product => {
-        productOptions += `<option value="${product.id}">${product.name}</option>`;
+        productOptions += `<div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="${product.id}" data-price="${product.price}" data-name="${product.name}"><div class="flex justify-between items-center"><span class="text-white font-medium">${product.name}</span><span class="text-green-400 font-bold">${parseFloat(product.price).toFixed(2)} جنيه</span></div></div>`;
     });
     
     row.innerHTML = `
         <td class="px-4 py-3">
-            <select name="items[${productIndex}][product_id]" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white" required>
-                ${productOptions}
-            </select>
+            <div class="relative">
+                <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." autocomplete="off">
+                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                    ${productOptions}
+                </div>
+            </div>
+            <input type="hidden" name="items[${productIndex}][product_id]" class="product-id" required>
         </td>
         <td class="px-4 py-3">
             <input type="number" name="items[${productIndex}][quantity]" value="1" min="1" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
         </td>
         <td class="px-4 py-3">
-            <input type="number" step="0.01" name="items[${productIndex}][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" required>
+            <input type="number" step="0.01" name="items[${productIndex}][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
         </td>
         <td class="px-4 py-3 text-white font-medium item-total">0.00</td>
         <td class="px-4 py-3 text-center">
@@ -191,6 +204,49 @@ function calculateTotal() {
 function attachEventListeners(row) {
     row.querySelector('.quantity-input').addEventListener('input', calculateTotal);
     row.querySelector('.price-input').addEventListener('input', calculateTotal);
+    
+    const productSearch = row.querySelector('.product-search');
+    const productDropdown = row.querySelector('.product-dropdown');
+    const productIdInput = row.querySelector('.product-id');
+    
+    productSearch.addEventListener('focus', function() {
+        productDropdown.classList.remove('hidden');
+        filterProducts(productDropdown, '');
+    });
+    
+    productSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        filterProducts(productDropdown, searchTerm);
+        productDropdown.classList.remove('hidden');
+    });
+    
+    productDropdown.querySelectorAll('.product-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            const productName = this.getAttribute('data-name');
+            const price = this.getAttribute('data-price');
+            
+            productSearch.value = productName;
+            productIdInput.value = productId;
+            productDropdown.classList.add('hidden');
+            row.querySelector('.price-input').value = price || 0;
+            calculateTotal();
+        });
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!row.contains(e.target)) {
+            productDropdown.classList.add('hidden');
+        }
+    });
+}
+
+function filterProducts(dropdown, searchTerm) {
+    const options = dropdown.querySelectorAll('.product-option');
+    options.forEach(option => {
+        const name = option.getAttribute('data-name').toLowerCase();
+        option.style.display = name.includes(searchTerm) ? 'block' : 'none';
+    });
 }
 
 document.querySelectorAll('.product-row').forEach(attachEventListeners);

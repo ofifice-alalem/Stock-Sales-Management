@@ -20,10 +20,16 @@ class InvoiceController extends Controller
         private readonly InvoiceService $invoiceService
     ) {}
 
-    public function index(): View
+    public function index(\Illuminate\Http\Request $request): View
     {
-        $invoices = $this->invoiceService->getAllInvoices();
-        return view('admin.invoices.index', compact('invoices'));
+        $invoices = $this->invoiceService->getAllInvoices(
+            $request->input('invoice_number'),
+            $request->input('marketer_id') ? (int)$request->input('marketer_id') : null,
+            $request->input('store_id') ? (int)$request->input('store_id') : null
+        );
+        $marketers = User::whereHas('role', fn($q) => $q->where('name', 'marketer'))->get();
+        $stores = Store::all();
+        return view('admin.invoices.index', compact('invoices', 'marketers', 'stores'));
     }
 
     public function create(): View
@@ -77,7 +83,6 @@ class InvoiceController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'invoice_number' => 'required|string|max:50|unique:invoices',
             'marketer_id' => 'required|exists:users,id',
             'store_id' => 'required|exists:stores,id',
             'items' => 'required|array|min:1',
@@ -86,8 +91,10 @@ class InvoiceController extends Controller
             'items.*.price' => 'required|numeric|min:0',
         ]);
 
+        $invoiceNumber = 'INV-' . date('Ymd') . '-' . str_pad((string)(\App\Models\Invoice::whereDate('created_at', today())->count() + 1), 4, '0', STR_PAD_LEFT);
+
         $invoiceDTO = new CreateInvoiceDTO(
-            invoiceNumber: $request->input('invoice_number'),
+            invoiceNumber: $invoiceNumber,
             marketerId: (int)$request->input('marketer_id'),
             storeId: (int)$request->input('store_id'),
             totalAmount: null
