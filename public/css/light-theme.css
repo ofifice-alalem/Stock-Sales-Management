@@ -1,0 +1,108 @@
+/* Light Mode Styles */
+body.light-mode{background:#f3f4f6!important}
+body.light-mode .glass-effect{background:rgba(255,255,255,0.9)!important;border-color:rgba(0,0,0,0.1)!important}
+body.light-mode .text-white{color:#111827!important}
+body.light-mode .text-gray-300{color:#1f2937!important}
+body.light-mode .text-gray-400{color:#374151!important}
+body.light-mode .bg-white\/5{background:rgba(0,0,0,0.05)!important}
+body.light-mode .bg-white\/10{background:rgba(0,0,0,0.1)!important}
+body.light-mode .bg-white\/10 *{color:#111827!important}
+body.light-mode .border-white\/10{border-color:rgba(0,0,0,0.1)!important}
+body.light-mode .divide-white\/10>*{border-color:rgba(0,0,0,0.1)!important}
+body.light-mode .hover\:bg-white\/10:hover{background:rgba(0,0,0,0.05)!important}
+body.light-mode .hover\:bg-white\/5:hover{background:rgba(0,0,0,0.03)!important}
+body.light-mode #globalThemeBtn{background:rgba(0,0,0,0.08)!important;color:#111827!important;border:1px solid rgba(0,0,0,0.1)!important}
+body.light-mode #globalThemeBtn:hover{background:rgba(0,0,0,0.12)!important}
+body.light-mode #globalThemeBtn *{color:#111827!important}
+body.light-mode .gradient-purple{color:#fff!important}
+body.light-mode .gradient-purple *{color:#fff!important}
+body.light-mode select option{background:#ffffff!important;color:#111827!important}
+body.light-mode .bg-white{background:rgba(255,255,255,0.9)!important}
+body.light-mode .text-gray-900{color:#111827!important}
+body.light-mode .text-gray-600{color:#4b5563!important}
+body.light-mode .text-gray-500{color:#6b7280!important}
+body.light-mode .bg-gray-50{background:rgba(0,0,0,0.02)!important}
+body.light-mode .bg-gray-100{background:rgba(0,0,0,0.08)!important}
+body.light-mode .text-gray-800{color:#111827!important}
+body.light-mode .border-gray-100{border-color:rgba(0,0,0,0.1)!important}
+body.light-mode .divide-gray-100>*{border-color:rgba(0,0,0,0.1)!important}
+body.light-mode .hover\:bg-gray-50:hover{background:rgba(0,0,0,0.03)!important}
+body.light-mode input,body.light-mode textarea,body.light-mode select{background:#fff!important;border-color:#9ca3af!important;color:#111827!important}
+body.light-mode input::placeholder,body.light-mode textarea::placeholder{color:#6b7280!important}
+body.light-mode label{color:#283145!important;font-weight:500!important}
+body.light-mode button:not(#globalThemeBtn):not(#themeBtn){color:#fff!important}
+body.light-mode button:not(#globalThemeBtn):not(#themeBtn) *{color:#fff!important}
+body.light-mode a.bg-red-600,body.light-mode a.bg-red-600 *{color:#fff!important}
+body.light-mode .bg-red-600,body.light-mode .bg-red-600 *{color:#fff!important}
+body.light-mode .bg-blue-600,body.light-mode .bg-blue-600 *{color:#fff!important}
+body.light-mode .bg-green-600,body.light-mode .bg-green-600 *{color:#fff!important}
+body.light-mode .bg-primary,body.light-mode .bg-primary *{color:#fff!important}
+body.light-mode a.border-gray-300,body.light-mode button.border-gray-300{background:#dc2626!important;border-color:#dc2626!important;color:#fff!important}
+body.light-mode a.border-gray-300:hover,body.light-mode button.border-gray-300:hover{background:#b91c1c!important}
+body.light-mode .bg-primary{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)!important}
+body.light-mode .text-dark-blue-600{color:#667eea!important}
+body.light-mode .bg-dark-blue-100{background:#e0e7ff!important}
+body.light-mode .text-purple-600{color:#9333ea!important}
+body.light-mode .bg-purple-100{background:#f3e8ff!important}
+body.light-mode .text-yellow-600{color:#ca8a04!important}
+body.light-mode .bg-yellow-100{background:#fef3c7!important}
+body.light-mode .text-green-600{color:#16a34a!important}
+body.light-mode .bg-green-100{background:#dcfce7!important}
+body.light-mode .text-blue-600{color:#2563eb!important}
+body.light-mode .bg-blue-100{background:#dbeafe!important}
+body.light-mode .bg-blue-50{background:#eff6ff!important}
+body.light-mode .text-blue-800{color:#1e40af!important}
+body.light-mode .text-blue-900{color:#1e3a8a!important}
+body.light-mode .border-blue-200{border-color:#bfdbfe!important}
+body.light-mode .text-red-600{color:#dc2626!important}
+body.light-mode .text-red-600 svg{color:#dc2626!important;stroke:#dc2626!important}
+body.light-mode .hover\:text-red-900:hover{color:#7f1d1d!important}
+body.light-mode .hover\:text-red-900:hover svg{stroke:#7f1d1d!important}
+body.light-mode .bg-red-100{background:#fee2e2!important}
+body.light-mode .text-orange-600{color:#ea580c!important}
+body.light-mode .bg-orange-100{background:#ffedd5!important}
+body.light-mode .text-indigo-600{color:#4f46e5!important}
+body.light-mode .bg-indigo-100{background:#e0e7ff!important}
+body.light-mode .text-indigo-800{color:#3730a3!important}
+body.light-mode .text-cyan-600{color:#0891b2!important}
+body.light-mode .bg-cyan-100{background:#cffafe!important}
+body.light-mode .bg-yellow-50{background:#fefce8!important}
+body.light-mode .border-yellow-400{border-color:#facc15!important}
+body.light-mode .hover\:text-blue-900:hover{color:#1e3a8a!important}
+body.light-mode .hover\:text-green-900:hover{color:#14532d!important}
+body.light-mode .hover\:bg-blue-50:hover{background:#eff6ff!important}
+body.light-mode .hover\:bg-green-50:hover{background:#f0fdf4!important}
+body.light-mode .hover\:bg-red-50:hover{background:#fef2f2!important}
+body.light-mode .text-blue-600 svg{stroke:#2563eb!important}
+body.light-mode .text-green-600 svg{fill:#16a34a!important}
+body.light-mode .hover\:text-blue-900:hover svg{stroke:#1e3a8a!important}
+body.light-mode .hover\:text-green-900:hover svg{fill:#14532d!important}
+body.light-mode .text-gray-700{color:#374151!important}
+body.light-mode .text-green-600{color:#16a34a!important}
+body.light-mode .line-through{text-decoration:line-through!important}
+body.light-mode .divide-gray-200>*{border-color:#e5e7eb!important}
+body.light-mode .bg-gray-600{background:rgba(0,0,0,0.5)!important}
+body.light-mode .bg-opacity-50{opacity:1!important}
+body.light-mode .text-blue-800{color:#1e40af!important}
+body.light-mode .text-green-800{color:#166534!important}
+body.light-mode .text-indigo-800{color:#3730a3!important}
+body.light-mode .text-purple-800{color:#6b21a8!important}
+body.light-mode .max-w-4xl,.max-w-md{background:rgba(255,255,255,0.95)!important;backdrop-filter:blur(10px)!important;border:1px solid rgba(0,0,0,0.1)!important}
+body.light-mode .text-gray-400{color:#6b7280!important}
+body.light-mode .hover\:text-gray-600:hover{color:#4b5563!important}
+body.light-mode .bg-blue-500\/20{background:#dbeafe!important}
+body.light-mode .text-blue-400{color:#2563eb!important}
+body.light-mode .bg-green-500\/20{background:#dcfce7!important}
+body.light-mode .text-green-400{color:#16a34a!important}
+body.light-mode .bg-yellow-500\/20{background:#fef3c7!important}
+body.light-mode .text-yellow-400{color:#d97706!important}
+body.light-mode .bg-purple-500\/20{background:#f3e8ff!important}
+body.light-mode .text-purple-400{color:#9333ea!important}
+body.light-mode .border-blue-500\/30{border-color:#93c5fd!important}
+body.light-mode .border-green-500\/30{border-color:#86efac!important}
+body.light-mode .border-yellow-500\/30{border-color:#fbbf24!important}
+body.light-mode .border-purple-500\/30{border-color:#c084fc!important}
+body.light-mode .hover\:bg-blue-500\/30:hover{background:#bfdbfe!important}
+body.light-mode .hover\:bg-green-500\/30:hover{background:#bbf7d0!important}
+body.light-mode .hover\:bg-yellow-500\/30:hover{background:#fde68a!important}
+body.light-mode .hover\:bg-purple-500\/30:hover{background:#e9d5ff!important}
