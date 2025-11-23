@@ -7,9 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/dark-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('css/light-theme.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Cairo', sans-serif;
             background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
             min-height: 100vh;
         }

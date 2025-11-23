@@ -90,6 +90,10 @@ body.light-mode .text-purple-800{color:#6b21a8!important}
 body.light-mode .max-w-4xl,.max-w-md{background:rgba(255,255,255,0.95)!important;backdrop-filter:blur(10px)!important;border:1px solid rgba(0,0,0,0.1)!important}
 body.light-mode .text-gray-400{color:#6b7280!important}
 body.light-mode .hover\:text-gray-600:hover{color:#4b5563!important}
+body.light-mode{background:#f8f9fa!important}
+body.light-mode .glass-effect{background:rgba(255,255,255,0.95)!important;backdrop-filter:blur(20px)!important}
+body.light-mode .stat-card{background:linear-gradient(135deg,rgba(255,255,255,0.95) 0%,rgba(248,249,250,0.98) 100%)!important;backdrop-filter:blur(10px)!important}
+body.light-mode .border-white\/5{border-color:rgba(0,0,0,0.08)!important}
 body.light-mode .bg-blue-500\/20{background:#dbeafe!important}
 body.light-mode .text-blue-400{color:#2563eb!important}
 body.light-mode .bg-green-500\/20{background:#dcfce7!important}
@@ -98,11 +102,37 @@ body.light-mode .bg-yellow-500\/20{background:#fef3c7!important}
 body.light-mode .text-yellow-400{color:#d97706!important}
 body.light-mode .bg-purple-500\/20{background:#f3e8ff!important}
 body.light-mode .text-purple-400{color:#9333ea!important}
-body.light-mode .border-blue-500\/30{border-color:#93c5fd!important}
-body.light-mode .border-green-500\/30{border-color:#86efac!important}
-body.light-mode .border-yellow-500\/30{border-color:#fbbf24!important}
-body.light-mode .border-purple-500\/30{border-color:#c084fc!important}
-body.light-mode .hover\:bg-blue-500\/30:hover{background:#bfdbfe!important}
-body.light-mode .hover\:bg-green-500\/30:hover{background:#bbf7d0!important}
-body.light-mode .hover\:bg-yellow-500\/30:hover{background:#fde68a!important}
-body.light-mode .hover\:bg-purple-500\/30:hover{background:#e9d5ff!important}
+body.light-mode .border-blue-500\/20{border-color:#93c5fd!important}
+body.light-mode .border-green-500\/20{border-color:#86efac!important}
+body.light-mode .border-yellow-500\/20{border-color:#fbbf24!important}
+body.light-mode .border-purple-500\/20{border-color:#c084fc!important}
+body.light-mode .from-blue-600\/20{--tw-gradient-from:#dbeafe!important}
+body.light-mode .to-blue-800\/20{--tw-gradient-to:#bfdbfe!important}
+body.light-mode .from-green-600\/20{--tw-gradient-from:#dcfce7!important}
+body.light-mode .to-green-800\/20{--tw-gradient-to:#bbf7d0!important}
+body.light-mode .from-yellow-600\/20{--tw-gradient-from:#fef3c7!important}
+body.light-mode .to-yellow-800\/20{--tw-gradient-to:#fde68a!important}
+body.light-mode .from-purple-600\/20{--tw-gradient-from:#f3e8ff!important}
+body.light-mode .to-purple-800\/20{--tw-gradient-to:#e9d5ff!important}
+body.light-mode .hover\:from-blue-600\/30:hover{--tw-gradient-from:#bfdbfe!important}
+body.light-mode .hover\:to-blue-800\/30:hover{--tw-gradient-to:#93c5fd!important}
+body.light-mode .hover\:from-green-600\/30:hover{--tw-gradient-from:#bbf7d0!important}
+body.light-mode .hover\:to-green-800\/30:hover{--tw-gradient-to:#86efac!important}
+body.light-mode .hover\:from-yellow-600\/30:hover{--tw-gradient-from:#fde68a!important}
+body.light-mode .hover\:to-yellow-800\/30:hover{--tw-gradient-to:#fbbf24!important}
+body.light-mode .hover\:from-purple-600\/30:hover{--tw-gradient-from:#e9d5ff!important}
+body.light-mode .hover\:to-purple-800\/30:hover{--tw-gradient-to:#c084fc!important}
+body.light-mode .hover\:bg-white\/5:hover{background:rgba(0,0,0,0.03)!important}
+body.light-mode .from-purple-600{--tw-gradient-from:#9333ea!important}
+body.light-mode .to-blue-600{--tw-gradient-to:#2563eb!important}
+body.light-mode .hover\:from-purple-700:hover{--tw-gradient-from:#7e22ce!important}
+body.light-mode .hover\:to-blue-700:hover{--tw-gradient-to:#1d4ed8!important}
+body.light-mode .text-gray-400{color:#6b7280!important}
+body.light-mode .hover\:bg-white\/10:hover{background:rgba(0,0,0,0.05)!important}
+body.light-mode .shadow-2xl{box-shadow:0 25px 50px -12px rgba(0,0,0,0.15)!important}
+body.light-mode .shadow-xl{box-shadow:0 20px 25px -5px rgba(0,0,0,0.1)!important}
+body.light-mode .shadow-lg{box-shadow:0 10px 15px -3px rgba(0,0,0,0.1)!important}
+body.light-mode .from-purple-600{--tw-gradient-from:#9333ea!important;color:#fff!important}
+body.light-mode .to-blue-600{--tw-gradient-to:#2563eb!important}
+body.light-mode .bg-gradient-to-r.from-purple-600.to-blue-600{color:#fff!important}
+body.light-mode .bg-gradient-to-r.from-purple-600.to-blue-600 *{color:#fff!important}
