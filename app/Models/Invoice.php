@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Invoice extends Model
 {
@@ -22,5 +24,28 @@ class Invoice extends Model
             'total_amount' => 'decimal:2',
             'sent_to_whatsapp' => 'boolean',
         ];
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
+    }
+
+    public function marketer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'marketer_id');
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(InvoiceItem::class);
+    }
+
+    public function getTotalAmountAttribute($value): float
+    {
+        if ($this->relationLoaded('items') && $this->items->isNotEmpty()) {
+            return (float) $this->items->sum(fn($item) => $item->price * $item->quantity);
+        }
+        return (float) ($value ?? 0);
     }
 }

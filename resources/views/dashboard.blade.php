@@ -50,7 +50,7 @@
                     </svg>
                     لوحة التحكم
                 </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-400 rounded-lg hover:bg-white/5 hover:text-white transition-all">
+                <a href="{{ route('admin.products.index') }}" class="flex items-center px-4 py-3 text-gray-400 rounded-lg hover:bg-white/5 hover:text-white transition-all">
                     <svg class="w-5 h-5 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                     </svg>
@@ -178,10 +178,74 @@
             </div>
         </div>
 
+        <!-- Quick Stats -->
+        @if(isset($quickStats) && count($quickStats) > 0)
+        <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl mb-8">
+            <h2 class="text-lg font-bold text-white mb-6">إحصائيات سريعة</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                @foreach($quickStats as $key => $value)
+                <div class="bg-white/5 rounded-lg p-4 text-center">
+                    <p class="text-3xl font-bold text-white mb-1">{{ $value }}</p>
+                    <p class="text-sm text-gray-400">
+                        @if($key === 'total_stock_assignments') إجمالي التسليمات
+                        @elseif($key === 'pending_returns') طلبات إرجاع معلقة
+                        @elseif($key === 'today_invoices') فواتير اليوم
+                        @elseif($key === 'approved_today') تمت الموافقة اليوم
+                        @elseif($key === 'my_invoices') فواتيري
+                        @elseif($key === 'my_stock_items') عناصر مخزوني
+                        @endif
+                    </p>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        <!-- Recent Activities -->
+        @if(isset($recentActivities) && count($recentActivities) > 0)
+        <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl mb-8">
+            <h2 class="text-lg font-bold text-white mb-6">النشاطات الأخيرة</h2>
+            <div class="space-y-3">
+                @foreach($recentActivities as $activity)
+                <div class="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-all">
+                    @if($roleName === 'admin')
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-white font-medium">{{ $activity->action_type }}</p>
+                                <p class="text-sm text-gray-400">{{ $activity->description }}</p>
+                                <p class="text-xs text-gray-500 mt-1">بواسطة: {{ $activity->user_name }}</p>
+                            </div>
+                            <span class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($activity->created_at)->diffForHumans() }}</span>
+                        </div>
+                    @elseif($roleName === 'storekeeper')
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-white font-medium">تسليم بضاعة</p>
+                                <p class="text-sm text-gray-400">{{ $activity->product_name }} - الكمية: {{ $activity->quantity }}</p>
+                                <p class="text-xs text-gray-500 mt-1">للمسوق: {{ $activity->marketer_name }}</p>
+                            </div>
+                            <span class="text-xs text-gray-400">{{ \Carbon\Carbon::parse($activity->created_at)->diffForHumans() }}</span>
+                        </div>
+                    @elseif($roleName === 'marketer')
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-white font-medium">فاتورة #{{ $activity->invoice_number }}</p>
+                                <p class="text-sm text-gray-400">{{ $activity->store->name }}</p>
+                                <p class="text-xs text-gray-500 mt-1">المبلغ: {{ number_format($activity->total_amount, 2) }} جنيه</p>
+                            </div>
+                            <span class="text-xs text-gray-400">{{ $activity->created_at->diffForHumans() }}</span>
+                        </div>
+                    @endif
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl">
             <h2 class="text-lg font-bold text-white mb-6">الإجراءات السريعة</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="#" class="bg-gradient-to-br from-blue-600/20 to-blue-800/20 hover:from-blue-600/30 hover:to-blue-800/30 border border-blue-500/20 text-blue-400 p-6 rounded-2xl text-center transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                <a href="{{ route('admin.products.index') }}" class="bg-gradient-to-br from-blue-600/20 to-blue-800/20 hover:from-blue-600/30 hover:to-blue-800/30 border border-blue-500/20 text-blue-400 p-6 rounded-2xl text-center transition-all duration-300 hover:scale-105 hover:shadow-xl">
                     <svg class="w-6 h-6 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                     </svg>
