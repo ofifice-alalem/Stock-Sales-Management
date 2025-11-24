@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             StoreReturnSeeder::class,
             ReturnRequestSeeder::class,
             ActivityLogSeeder::class,
+            StoreDebtSeeder::class,
+            StoreDebtPaymentSeeder::class,
         ]);
     }
 }
