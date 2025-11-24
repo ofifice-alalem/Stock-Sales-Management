@@ -10,6 +10,13 @@
         <div class="flex-1">
             <input type="text" name="search" value="{{ request('search') }}" placeholder="ابحث بالاسم أو رقم الهاتف..." class="w-full h-[42px] px-4 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500">
         </div>
+        <select name="sort" class="h-[42px] px-4 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500">
+            <option value="">الترتيب حسب</option>
+            <option value="total_invoices_desc" {{ request('sort') == 'total_invoices_desc' ? 'selected' : '' }}>الفواتير (الأعلى)</option>
+            <option value="total_invoices_asc" {{ request('sort') == 'total_invoices_asc' ? 'selected' : '' }}>الفواتير (الأقل)</option>
+            <option value="total_stock_value_desc" {{ request('sort') == 'total_stock_value_desc' ? 'selected' : '' }}>قيمة البضاعة (الأعلى)</option>
+            <option value="total_stock_value_asc" {{ request('sort') == 'total_stock_value_asc' ? 'selected' : '' }}>قيمة البضاعة (الأقل)</option>
+        </select>
         <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all h-[42px]">
             <svg class="w-5 h-5 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -38,9 +45,13 @@
         </div>
 
         <div class="border-t border-white/10 pt-4 mb-4">
-            <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center justify-between mb-3">
                 <span class="text-sm text-gray-400">إجمالي البضاعة</span>
                 <span class="text-2xl font-bold text-purple-400">{{ $marketer->totalQuantity }}</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-400">إجمالي الفواتير</span>
+                <span class="text-xl font-bold text-green-400">{{ number_format($marketer->totalInvoices, 2) }} جنيه</span>
             </div>
         </div>
 
@@ -70,6 +81,12 @@
                 </span>
             </div>
             @endforeach
+            <div class="border-t border-white/10 pt-3 mt-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-400">إجمالي قيمة البضاعة</span>
+                    <span class="text-lg font-bold text-yellow-400">{{ number_format($marketer->totalStockValue, 2) }} جنيه</span>
+                </div>
+            </div>
         </div>
         @else
         <div class="text-center py-4">

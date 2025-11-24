@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 interface MarketerRepositoryInterface
 {
-    public function getMarketersWithStock(?string $search): Collection;
+    public function getMarketersWithStock(?string $search, ?string $sort): Collection;
     public function getMarketerStock(int $marketerId): Collection;
     public function addStock(int $marketerId, int $productId, int $quantity): void;
     public function removeStock(int $marketerId, int $productId, int $quantity): void;

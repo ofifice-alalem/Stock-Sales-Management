@@ -20,7 +20,11 @@ class StoreDebtController extends Controller
 
     public function index(Request $request): View
     {
-        $stores = $this->storeDebtService->getAllStoresWithDebts($request->input('search'));
+        $stores = $this->storeDebtService->getAllStoresWithDebts(
+            $request->input('search'),
+            $request->input('sort'),
+            $request->input('direction')
+        );
         return view('admin.store-debts.index', compact('stores'));
     }
 

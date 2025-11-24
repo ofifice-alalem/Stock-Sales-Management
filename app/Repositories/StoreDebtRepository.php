@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class StoreDebtRepository implements StoreDebtRepositoryInterface
 {
-    public function getAllStoresWithDebts(?string $search): Collection
+    public function getAllStoresWithDebts(?string $search, ?string $sortBy, ?string $direction): Collection
     {
         $query = Store::with('invoices.marketer')
             ->whereHas('invoices');
@@ -22,15 +22,24 @@ class StoreDebtRepository implements StoreDebtRepositoryInterface
             $query->where('name', 'like', "%{$search}%");
         }
 
-        return $query->get()
+        $stores = $query->get()
             ->map(function ($store) {
                 $totalDebt = $this->getTotalDebtByStoreId($store->id);
                 $totalPaid = $this->getTotalPaidByStoreId($store->id);
                 $store->total_debt = $totalDebt;
                 $store->total_paid = $totalPaid;
                 $store->remaining = $totalDebt - $totalPaid;
+                $store->invoices_count = $store->invoices->count();
                 return $store;
             });
+
+        if ($sortBy && $direction) {
+            $stores = $direction === 'asc' 
+                ? $stores->sortBy($sortBy) 
+                : $stores->sortByDesc($sortBy);
+        }
+
+        return $stores->values();
     }
 
     public function getStoreDebtsByStoreId(int $storeId): Collection

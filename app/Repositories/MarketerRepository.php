@@ -13,7 +13,7 @@ class MarketerRepository implements MarketerRepositoryInterface
 {
     private const MARKETER_ROLE_ID = 3;
 
-    public function getMarketersWithStock(?string $search): Collection
+    public function getMarketersWithStock(?string $search, ?string $sort): Collection
     {
         $query = User::where('role_id', self::MARKETER_ROLE_ID)
             ->where('is_active', true);
@@ -25,21 +25,39 @@ class MarketerRepository implements MarketerRepositoryInterface
             });
         }
 
-        return $query->select('users.id', 'users.name', 'users.phone')
+        $marketers = $query->select('users.id', 'users.name', 'users.phone')
             ->get()
             ->map(function ($marketer) {
                 $stock = DB::table('marketer_stock')
                     ->join('products', 'marketer_stock.product_id', '=', 'products.id')
                     ->where('marketer_stock.marketer_id', $marketer->id)
                     ->where('marketer_stock.quantity', '>', 0)
-                    ->select('products.name', 'marketer_stock.quantity')
+                    ->select('products.name', 'products.price', 'marketer_stock.quantity')
                     ->get();
 
                 $marketer->products = $stock;
                 $marketer->total_quantity = $stock->sum('quantity');
+                $marketer->total_stock_value = $stock->sum(function ($item) {
+                    return $item->quantity * $item->price;
+                });
+                $marketer->total_invoices = DB::table('invoices')
+                    ->where('marketer_id', $marketer->id)
+                    ->sum('total_amount');
                 
                 return $marketer;
             });
+
+        if ($sort === 'total_invoices_desc') {
+            $marketers = $marketers->sortByDesc('total_invoices');
+        } elseif ($sort === 'total_invoices_asc') {
+            $marketers = $marketers->sortBy('total_invoices');
+        } elseif ($sort === 'total_stock_value_desc') {
+            $marketers = $marketers->sortByDesc('total_stock_value');
+        } elseif ($sort === 'total_stock_value_asc') {
+            $marketers = $marketers->sortBy('total_stock_value');
+        }
+
+        return $marketers->values();
     }
 
     public function getMarketerStock(int $marketerId): Collection

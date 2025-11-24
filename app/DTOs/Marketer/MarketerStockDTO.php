@@ -11,6 +11,8 @@ final readonly class MarketerStockDTO
         public string $marketerName,
         public string $marketerPhone,
         public array $products,
-        public int $totalQuantity
+        public int $totalQuantity,
+        public float $totalInvoices,
+        public float $totalStockValue
     ) {}
 }

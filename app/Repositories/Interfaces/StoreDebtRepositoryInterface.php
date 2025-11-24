@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface StoreDebtRepositoryInterface
 {
-    public function getAllStoresWithDebts(?string $search): Collection;
+    public function getAllStoresWithDebts(?string $search, ?string $sortBy, ?string $direction): Collection;
     public function getStoreDebtsByStoreId(int $storeId): Collection;
     public function getPaymentsByStoreId(int $storeId): Collection;
     public function createDebt(array $debtData): mixed;

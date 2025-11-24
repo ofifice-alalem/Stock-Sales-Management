@@ -72,10 +72,62 @@
         <thead class="bg-white/5">
             <tr>
                 <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">اسم المحل</th>
-                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">إجمالي المبلغ</th>
-                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">المدفوع</th>
-                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">المتبقي (الدين)</th>
-                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">عدد الفواتير</th>
+                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">
+                    <a href="?sort=total_debt&direction={{ request('sort') == 'total_debt' && request('direction') == 'asc' ? 'desc' : 'asc' }}{{ request('search') ? '&search=' . request('search') : '' }}" class="flex items-center gap-2 hover:text-white transition-colors">
+                        إجمالي المبلغ
+                        @if(request('sort') == 'total_debt')
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                @if(request('direction') == 'asc')
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                @else
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                @endif
+                            </svg>
+                        @endif
+                    </a>
+                </th>
+                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">
+                    <a href="?sort=total_paid&direction={{ request('sort') == 'total_paid' && request('direction') == 'asc' ? 'desc' : 'asc' }}{{ request('search') ? '&search=' . request('search') : '' }}" class="flex items-center gap-2 hover:text-white transition-colors">
+                        المدفوع
+                        @if(request('sort') == 'total_paid')
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                @if(request('direction') == 'asc')
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                @else
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                @endif
+                            </svg>
+                        @endif
+                    </a>
+                </th>
+                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">
+                    <a href="?sort=remaining&direction={{ request('sort') == 'remaining' && request('direction') == 'asc' ? 'desc' : 'asc' }}{{ request('search') ? '&search=' . request('search') : '' }}" class="flex items-center gap-2 hover:text-white transition-colors">
+                        المتبقي (الدين)
+                        @if(request('sort') == 'remaining')
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                @if(request('direction') == 'asc')
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                @else
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                @endif
+                            </svg>
+                        @endif
+                    </a>
+                </th>
+                <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">
+                    <a href="?sort=invoices_count&direction={{ request('sort') == 'invoices_count' && request('direction') == 'asc' ? 'desc' : 'asc' }}{{ request('search') ? '&search=' . request('search') : '' }}" class="flex items-center gap-2 hover:text-white transition-colors">
+                        عدد الفواتير
+                        @if(request('sort') == 'invoices_count')
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                @if(request('direction') == 'asc')
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                @else
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                @endif
+                            </svg>
+                        @endif
+                    </a>
+                </th>
                 <th class="px-6 py-4 text-right text-sm font-medium text-gray-400">الإجراءات</th>
             </tr>
         </thead>

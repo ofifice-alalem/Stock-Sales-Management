@@ -20,7 +20,10 @@ class MarketerController extends Controller
 
     public function index(Request $request): View
     {
-        $marketers = $this->marketerService->getMarketersWithStock($request->input('search'));
+        $marketers = $this->marketerService->getMarketersWithStock(
+            $request->input('search'),
+            $request->input('sort')
+        );
         return view('admin.marketers.index', compact('marketers'));
     }
 

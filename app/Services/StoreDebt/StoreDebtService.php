@@ -13,9 +13,9 @@ class StoreDebtService
         private readonly StoreDebtRepositoryInterface $storeDebtRepository
     ) {}
 
-    public function getAllStoresWithDebts(?string $search): mixed
+    public function getAllStoresWithDebts(?string $search, ?string $sortBy, ?string $direction): mixed
     {
-        return $this->storeDebtRepository->getAllStoresWithDebts($search);
+        return $this->storeDebtRepository->getAllStoresWithDebts($search, $sortBy, $direction);
     }
 
     public function getStoreDebtDetails(int $storeId): array

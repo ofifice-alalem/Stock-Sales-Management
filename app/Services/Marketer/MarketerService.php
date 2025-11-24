@@ -16,16 +16,18 @@ class MarketerService
         private readonly MarketerRepositoryInterface $marketerRepository
     ) {}
 
-    public function getMarketersWithStock(?string $search): Collection
+    public function getMarketersWithStock(?string $search, ?string $sort): Collection
     {
-        $marketers = $this->marketerRepository->getMarketersWithStock($search);
+        $marketers = $this->marketerRepository->getMarketersWithStock($search, $sort);
 
         return $marketers->map(fn($marketer) => new MarketerStockDTO(
             marketerId: $marketer->id,
             marketerName: $marketer->name,
             marketerPhone: $marketer->phone,
             products: $marketer->products->toArray(),
-            totalQuantity: $marketer->total_quantity
+            totalQuantity: $marketer->total_quantity,
+            totalInvoices: (float)$marketer->total_invoices,
+            totalStockValue: (float)$marketer->total_stock_value
         ));
     }
 
