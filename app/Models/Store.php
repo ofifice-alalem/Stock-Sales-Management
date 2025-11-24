@@ -14,4 +14,14 @@ class Store extends Model
         'whatsapp_number',
         'address',
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    public function debts()
+    {
+        return $this->hasMany(StoreDebt::class);
+    }
 }

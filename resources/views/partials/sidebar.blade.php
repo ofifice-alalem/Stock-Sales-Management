@@ -44,6 +44,22 @@
                 </div>
                 <span class="font-medium">إدارة المستخدمين</span>
             </a>
+            <a href="{{ route('admin.marketers.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.marketers.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.marketers.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <span class="font-medium">المسوقين</span>
+            </a>
+            <a href="{{ route('admin.store-debts.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.store-debts.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.store-debts.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <span class="font-medium">ديون المحلات</span>
+            </a>
         </nav>
 
         <div class="p-4 border-t border-white/5">

@@ -41,6 +41,11 @@ class Invoice extends Model
         return $this->hasMany(InvoiceItem::class);
     }
 
+    public function debts(): HasMany
+    {
+        return $this->hasMany(StoreDebt::class);
+    }
+
     public function getTotalAmountAttribute($value): float
     {
         if ($this->relationLoaded('items') && $this->items->isNotEmpty()) {
