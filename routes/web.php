@@ -16,5 +16,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('invoices', \App\Http\Controllers\Admin\InvoiceController::class);
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     });
 });
