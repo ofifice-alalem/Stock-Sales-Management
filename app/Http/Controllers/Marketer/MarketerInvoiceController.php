@@ -9,15 +9,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Store;
 use App\Repositories\Interfaces\MarketerRepositoryInterface;
 use App\Services\Invoice\InvoiceService;
+use App\Services\Invoice\InvoicePdfService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class MarketerInvoiceController extends Controller
 {
     public function __construct(
         private readonly InvoiceService $invoiceService,
-        private readonly MarketerRepositoryInterface $marketerRepository
+        private readonly MarketerRepositoryInterface $marketerRepository,
+        private readonly InvoicePdfService $pdfService
     ) {}
 
     public function index(Request $request): View
@@ -171,5 +174,16 @@ class MarketerInvoiceController extends Controller
 
         return redirect()->route('marketer.invoices.index')
             ->with('success', 'تم حذف الفاتورة بنجاح');
+    }
+
+    public function downloadPdf(int $id): Response
+    {
+        $invoice = $this->invoiceService->getInvoiceById($id);
+        
+        if ($invoice->marketer_id !== auth()->id()) {
+            abort(403);
+        }
+        
+        return $this->pdfService->generatePdf($id);
     }
 }

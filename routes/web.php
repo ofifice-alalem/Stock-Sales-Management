@@ -15,6 +15,7 @@ Route::middleware('auth')->group(function () {
     
     Route::prefix('marketer')->name('marketer.')->group(function () {
         Route::resource('invoices', \App\Http\Controllers\Marketer\MarketerInvoiceController::class);
+        Route::get('invoices/{id}/pdf', [\App\Http\Controllers\Marketer\MarketerInvoiceController::class, 'downloadPdf'])->name('invoices.pdf');
         Route::get('earnings', [\App\Http\Controllers\Marketer\MarketerEarningsController::class, 'index'])->name('earnings.index');
     });
     
