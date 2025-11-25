@@ -78,6 +78,14 @@
                     </div>
                     <span class="font-medium">فواتيري</span>
                 </a>
+                <a href="{{ route('marketer.stock.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('marketer.stock.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('marketer.stock.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">مخزوني</span>
+                </a>
                 <a href="{{ route('marketer.earnings.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('marketer.earnings.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
                     <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('marketer.earnings.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

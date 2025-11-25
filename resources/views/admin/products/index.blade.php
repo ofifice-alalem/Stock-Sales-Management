@@ -58,7 +58,7 @@ searchInput.addEventListener('input', function() {
                         <div class="product-item px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-name="${product.name}">
                             <div class="flex justify-between items-center">
                                 <span class="text-white font-medium">${product.name}</span>
-                                <span class="text-green-400 font-bold">${parseFloat(product.price).toFixed(2)} جنيه</span>
+                                <span class="text-green-400 font-bold">${parseFloat(product.price).toFixed(2)} دينار</span>
                             </div>
                         </div>
                     `).join('');
@@ -105,7 +105,7 @@ document.addEventListener('click', function(e) {
                 <td class="px-6 py-4 text-white">{{ $product->id }}</td>
                 <td class="px-6 py-4 text-white font-medium">{{ $product->name }}</td>
                 <td class="px-6 py-4 text-gray-400">{{ $product->unit }}</td>
-                <td class="px-6 py-4 text-white font-bold">{{ number_format($product->price ?? 0, 2) }} جنيه</td>
+                <td class="px-6 py-4 text-white font-bold">{{ number_format($product->price ?? 0, 2) }} دينار</td>
                 <td class="px-6 py-4 text-gray-400">{{ Str::limit($product->description, 50) }}</td>
                 <td class="px-6 py-4">
                     <div class="flex gap-2">

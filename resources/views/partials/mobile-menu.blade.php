@@ -1,6 +1,6 @@
 @if(auth()->user()->role->name === 'marketer')
 <div id="mobileMenu" class="fixed bottom-2 left-2 right-2 glass-effect border border-white/10 z-30 shadow-2xl md:hidden rounded-2xl">
-    <div class="flex items-center justify-around py-1">
+    <div class="flex items-center justify-around py-1 px-1">
         <a href="{{ route('marketer.invoices.index') }}" class="relative flex {{ request()->routeIs('marketer.invoices.index') ? 'flex-col items-center space-y-1 -mt-5 !text-white px-6' : 'items-center justify-center text-gray-300' }} p-2.5 rounded-xl transition-all duration-300 hover:scale-105" style="{{ request()->routeIs('marketer.invoices.index') ? 'color: white !important;' : '' }}">
             @if(request()->routeIs('marketer.invoices.index'))
                 <div class="absolute inset-0 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl shadow-lg shadow-purple-500/30"></div>
@@ -22,6 +22,18 @@
             </svg>
             @if(request()->routeIs('marketer.invoices.create'))
                 <span class="relative text-xs font-semibold">جديد</span>
+            @endif
+        </a>
+
+        <a href="{{ route('marketer.stock.index') }}" class="relative flex {{ request()->routeIs('marketer.stock.index') ? 'flex-col items-center space-y-1 -mt-5 !text-white px-6' : 'items-center justify-center text-gray-300' }} p-2.5 rounded-xl transition-all duration-300 hover:scale-105" style="{{ request()->routeIs('marketer.stock.index') ? 'color: white !important;' : '' }}">
+            @if(request()->routeIs('marketer.stock.index'))
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl shadow-lg shadow-purple-500/30"></div>
+            @endif
+            <svg class="relative w-6 h-6 {{ request()->routeIs('marketer.stock.index') ? '' : 'text-gray-300' }}" fill="none" stroke="{{ request()->routeIs('marketer.stock.index') ? 'white' : 'currentColor' }}" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+            @if(request()->routeIs('marketer.stock.index'))
+                <span class="relative text-xs font-semibold">مخزوني</span>
             @endif
         </a>
 

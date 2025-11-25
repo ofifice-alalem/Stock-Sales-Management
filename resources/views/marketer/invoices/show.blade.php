@@ -74,7 +74,7 @@
                 <div>
                     <p class="text-xs text-gray-400 mb-1">المبلغ الإجمالي</p>
                     <p class="text-xl font-bold text-green-400">{{ number_format($invoice->total_amount ?? 0, 2) }}</p>
-                    <p class="text-xs text-gray-400">جنيه</p>
+                    <p class="text-xs text-gray-400">دينار</p>
                 </div>
             </div>
         </div>
@@ -105,8 +105,8 @@
                     <tr class="hover:bg-white/5 transition-colors">
                         <td class="px-6 py-4 text-white font-medium">{{ $item->product->name }}</td>
                         <td class="px-6 py-4 text-gray-400">{{ $item->quantity }}</td>
-                        <td class="px-6 py-4 text-gray-400">{{ number_format($item->price ?? 0, 2) }} جنيه</td>
-                        <td class="px-6 py-4 text-green-400 font-bold">{{ number_format(($item->price ?? 0) * $item->quantity, 2) }} جنيه</td>
+                        <td class="px-6 py-4 text-gray-400">{{ number_format($item->price ?? 0, 2) }} دينار</td>
+                        <td class="px-6 py-4 text-green-400 font-bold">{{ number_format(($item->price ?? 0) * $item->quantity, 2) }} دينار</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -117,7 +117,7 @@
             <div class="p-4 hover:bg-white/5 transition-colors">
                 <div class="flex justify-between items-start mb-3">
                     <div class="font-medium text-white">{{ $item->product->name }}</div>
-                    <div class="text-green-400 font-bold">{{ number_format(($item->price ?? 0) * $item->quantity, 2) }} جنيه</div>
+                    <div class="text-green-400 font-bold">{{ number_format(($item->price ?? 0) * $item->quantity, 2) }} دينار</div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-sm">
                     <div>
@@ -126,7 +126,7 @@
                     </div>
                     <div>
                         <span class="text-gray-400">السعر:</span>
-                        <span class="text-white mr-1">{{ number_format($item->price ?? 0, 2) }} جنيه</span>
+                        <span class="text-white mr-1">{{ number_format($item->price ?? 0, 2) }} دينار</span>
                     </div>
                 </div>
             </div>

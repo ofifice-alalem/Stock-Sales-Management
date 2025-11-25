@@ -34,7 +34,7 @@
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-400 mb-1">المبلغ الإجمالي</label>
-                <p class="text-white text-lg font-bold">{{ number_format($invoice->total_amount ?? 0, 2) }} جنيه</p>
+                <p class="text-white text-lg font-bold">{{ number_format($invoice->total_amount ?? 0, 2) }} دينار</p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-400 mb-1">حالة الإرسال</label>
@@ -68,8 +68,8 @@
                 <tr class="hover:bg-white/5 transition-colors">
                     <td class="px-6 py-4 text-white">{{ $item->product->name }}</td>
                     <td class="px-6 py-4 text-gray-400">{{ $item->quantity }}</td>
-                    <td class="px-6 py-4 text-gray-400">{{ number_format($item->price ?? 0, 2) }} جنيه</td>
-                    <td class="px-6 py-4 text-white font-medium">{{ number_format(($item->price ?? 0) * $item->quantity, 2) }} جنيه</td>
+                    <td class="px-6 py-4 text-gray-400">{{ number_format($item->price ?? 0, 2) }} دينار</td>
+                    <td class="px-6 py-4 text-white font-medium">{{ number_format(($item->price ?? 0) * $item->quantity, 2) }} دينار</td>
                 </tr>
                 @endforeach
             </tbody>

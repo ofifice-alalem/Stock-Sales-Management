@@ -8,7 +8,7 @@
 <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl mb-6">
     <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-white">إجمالي البضاعة</h2>
-        <div class="text-3xl font-bold text-green-400">{{ number_format($totalEarnings, 2) }} جنيه</div>
+        <div class="text-3xl font-bold text-green-400">{{ number_format($totalEarnings, 2) }} دينار</div>
     </div>
 </div>
 
@@ -29,9 +29,9 @@
                 <tr class="hover:bg-white/5 transition-colors">
                     <td class="px-6 py-4 text-white">{{ $index + 1 }}</td>
                     <td class="px-6 py-4 text-white">{{ $item->productName }}</td>
-                    <td class="px-6 py-4 text-gray-400">{{ number_format($item->price, 2) }} جنيه</td>
+                    <td class="px-6 py-4 text-gray-400">{{ number_format($item->price, 2) }} دينار</td>
                     <td class="px-6 py-4 text-gray-400">{{ $item->quantity }}</td>
-                    <td class="px-6 py-4 text-white font-medium">{{ number_format($item->total, 2) }} جنيه</td>
+                    <td class="px-6 py-4 text-white font-medium">{{ number_format($item->total, 2) }} دينار</td>
                 </tr>
                 @empty
                 <tr>
@@ -63,11 +63,11 @@
         <div class="grid grid-cols-2 gap-3 mb-3">
             <div>
                 <div class="text-xs text-gray-400 mb-1">السعر</div>
-                <div class="text-blue-400 font-medium">{{ number_format($item->price, 2) }} جنيه</div>
+                <div class="text-blue-400 font-medium">{{ number_format($item->price, 2) }} دينار</div>
             </div>
             <div class="text-left">
                 <div class="text-xs text-gray-400 mb-1">الإجمالي</div>
-                <div class="text-green-400 font-bold text-lg">{{ number_format($item->total, 2) }} جنيه</div>
+                <div class="text-green-400 font-bold text-lg">{{ number_format($item->total, 2) }} دينار</div>
             </div>
         </div>
     </div>

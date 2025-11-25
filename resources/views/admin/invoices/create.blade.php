@@ -74,7 +74,7 @@
                                         <div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="{{ $product->id }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}">
                                             <div class="flex justify-between items-center">
                                                 <span class="text-white font-medium">{{ $product->name }}</span>
-                                                <span class="text-green-400 font-bold">{{ number_format($product->price, 2) }} جنيه</span>
+                                                <span class="text-green-400 font-bold">{{ number_format($product->price, 2) }} دينار</span>
                                             </div>
                                         </div>
                                     @endforeach
@@ -131,7 +131,7 @@ function addProductRow() {
     
     let productOptions = '';
     products.forEach(product => {
-        productOptions += `<div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="${product.id}" data-price="${product.price}" data-name="${product.name}"><div class="flex justify-between items-center"><span class="text-white font-medium">${product.name}</span><span class="text-green-400 font-bold">${parseFloat(product.price).toFixed(2)} جنيه</span></div></div>`;
+        productOptions += `<div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="${product.id}" data-price="${product.price}" data-name="${product.name}"><div class="flex justify-between items-center"><span class="text-white font-medium">${product.name}</span><span class="text-green-400 font-bold">${parseFloat(product.price).toFixed(2)} دينار</span></div></div>`;
     });
     
     row.innerHTML = `

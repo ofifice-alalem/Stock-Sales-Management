@@ -85,7 +85,7 @@
                 <td class="px-6 py-4 text-white font-medium">{{ $invoice->invoice_number }}</td>
                 <td class="px-6 py-4 text-gray-400">{{ $invoice->marketer->name }}</td>
                 <td class="px-6 py-4 text-gray-400">{{ $invoice->store->name }}</td>
-                <td class="px-6 py-4 text-white">{{ number_format($invoice->total_amount ?? 0, 2) }} جنيه</td>
+                <td class="px-6 py-4 text-white">{{ number_format($invoice->total_amount ?? 0, 2) }} دينار</td>
                 <td class="px-6 py-4 text-gray-400">{{ $invoice->created_at->format('Y-m-d') }}</td>
                 <td class="px-6 py-4">
                     <div class="flex gap-2">

@@ -231,7 +231,7 @@
                             <div>
                                 <p class="text-white font-medium">فاتورة #{{ $activity->invoice_number }}</p>
                                 <p class="text-sm text-gray-400">{{ $activity->store->name }}</p>
-                                <p class="text-xs text-gray-500 mt-1">المبلغ: {{ number_format($activity->total_amount, 2) }} جنيه</p>
+                                <p class="text-xs text-gray-500 mt-1">المبلغ: {{ number_format($activity->total_amount, 2) }} دينار</p>
                             </div>
                             <span class="text-xs text-gray-400">{{ $activity->created_at->diffForHumans() }}</span>
                         </div>

@@ -51,7 +51,7 @@
             </div>
             <div class="flex items-center justify-between">
                 <span class="text-sm text-gray-400">إجمالي الفواتير</span>
-                <span class="text-xl font-bold text-green-400">{{ number_format($marketer->totalInvoices, 2) }} جنيه</span>
+                <span class="text-xl font-bold text-green-400">{{ number_format($marketer->totalInvoices, 2) }} دينار</span>
             </div>
         </div>
 
@@ -84,7 +84,7 @@
             <div class="border-t border-white/10 pt-3 mt-3">
                 <div class="flex items-center justify-between">
                     <span class="text-sm text-gray-400">إجمالي قيمة البضاعة</span>
-                    <span class="text-lg font-bold text-yellow-400">{{ number_format($marketer->totalStockValue, 2) }} جنيه</span>
+                    <span class="text-lg font-bold text-yellow-400">{{ number_format($marketer->totalStockValue, 2) }} دينار</span>
                 </div>
             </div>
         </div>

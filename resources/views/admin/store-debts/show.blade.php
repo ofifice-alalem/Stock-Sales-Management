@@ -17,15 +17,15 @@
 <div class="grid grid-cols-3 gap-6 mb-6">
     <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl">
         <h3 class="text-gray-400 text-sm mb-2">إجمالي المبلغ</h3>
-        <p class="text-3xl font-bold text-white">{{ number_format($totalDebt, 2) }} جنيه</p>
+        <p class="text-3xl font-bold text-white">{{ number_format($totalDebt, 2) }} دينار</p>
     </div>
     <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl">
         <h3 class="text-gray-400 text-sm mb-2">إجمالي المدفوع</h3>
-        <p class="text-3xl font-bold text-green-400">{{ number_format($totalPaid, 2) }} جنيه</p>
+        <p class="text-3xl font-bold text-green-400">{{ number_format($totalPaid, 2) }} دينار</p>
     </div>
     <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl">
         <h3 class="text-gray-400 text-sm mb-2">المتبقي (الدين)</h3>
-        <p class="text-3xl font-bold text-red-400">{{ number_format($remaining, 2) }} جنيه</p>
+        <p class="text-3xl font-bold text-red-400">{{ number_format($remaining, 2) }} دينار</p>
     </div>
 </div>
 
@@ -81,7 +81,7 @@
                     @foreach($debts as $invoice)
                     <tr class="hover:bg-white/5 transition-colors">
                         <td class="px-6 py-4 text-white">{{ $invoice->invoice_number }}</td>
-                        <td class="px-6 py-4 text-red-400">{{ number_format($invoice->total_amount, 2) }} جنيه</td>
+                        <td class="px-6 py-4 text-red-400">{{ number_format($invoice->total_amount, 2) }} دينار</td>
                         <td class="px-6 py-4 text-gray-400">{{ $invoice->marketer->name }}</td>
                         <td class="px-6 py-4 text-gray-400">{{ $invoice->created_at->format('Y-m-d') }}</td>
                     </tr>
@@ -108,7 +108,7 @@
                 <tbody class="divide-y divide-white/5">
                     @foreach($payments as $payment)
                     <tr class="hover:bg-white/5 transition-colors">
-                        <td class="px-6 py-4 text-green-400">{{ number_format($payment->amount, 2) }} جنيه</td>
+                        <td class="px-6 py-4 text-green-400">{{ number_format($payment->amount, 2) }} دينار</td>
                         <td class="px-6 py-4 text-gray-400">{{ $payment->marketer->name }}</td>
                         <td class="px-6 py-4 text-gray-400">{{ $payment->created_at->format('Y-m-d') }}</td>
                         <td class="px-6 py-4">

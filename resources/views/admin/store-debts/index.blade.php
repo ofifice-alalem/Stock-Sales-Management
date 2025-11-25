@@ -10,7 +10,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-400 text-sm mb-1">إجمالي المبلغ</p>
-                <p class="text-2xl font-bold text-white">{{ number_format($stores->sum('total_debt'), 2) }} جنيه</p>
+                <p class="text-2xl font-bold text-white">{{ number_format($stores->sum('total_debt'), 2) }} دينار</p>
             </div>
             <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
                 <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -24,7 +24,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-400 text-sm mb-1">إجمالي المدفوع</p>
-                <p class="text-2xl font-bold text-green-400">{{ number_format($stores->sum('total_paid'), 2) }} جنيه</p>
+                <p class="text-2xl font-bold text-green-400">{{ number_format($stores->sum('total_paid'), 2) }} دينار</p>
             </div>
             <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
                 <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-400 text-sm mb-1">إجمالي الديون</p>
-                <p class="text-2xl font-bold text-red-400">{{ number_format($stores->sum('remaining'), 2) }} جنيه</p>
+                <p class="text-2xl font-bold text-red-400">{{ number_format($stores->sum('remaining'), 2) }} دينار</p>
             </div>
             <div class="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
                 <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,9 +135,9 @@
             @foreach($stores as $store)
             <tr class="hover:bg-white/5 transition-colors">
                 <td class="px-6 py-4 text-white font-medium">{{ $store->name }}</td>
-                <td class="px-6 py-4 text-white">{{ number_format($store->total_debt, 2) }} جنيه</td>
-                <td class="px-6 py-4 text-green-400">{{ number_format($store->total_paid, 2) }} جنيه</td>
-                <td class="px-6 py-4 text-red-400 font-bold">{{ number_format($store->remaining, 2) }} جنيه</td>
+                <td class="px-6 py-4 text-white">{{ number_format($store->total_debt, 2) }} دينار</td>
+                <td class="px-6 py-4 text-green-400">{{ number_format($store->total_paid, 2) }} دينار</td>
+                <td class="px-6 py-4 text-red-400 font-bold">{{ number_format($store->remaining, 2) }} دينار</td>
                 <td class="px-6 py-4 text-gray-400">{{ $store->invoices->count() }}</td>
                 <td class="px-6 py-4">
                     <a href="{{ route('admin.store-debts.show', $store->id) }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all">

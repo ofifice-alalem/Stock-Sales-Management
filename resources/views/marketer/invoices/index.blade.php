@@ -70,7 +70,7 @@
             <tr class="hover:bg-white/5 transition-colors">
                 <td class="px-6 py-4 text-white font-medium">{{ $invoice->invoice_number }}</td>
                 <td class="px-6 py-4 text-gray-400">{{ $invoice->store->name }}</td>
-                <td class="px-6 py-4 text-white">{{ number_format($invoice->total_amount ?? 0, 2) }} جنيه</td>
+                <td class="px-6 py-4 text-white">{{ number_format($invoice->total_amount ?? 0, 2) }} دينار</td>
                 <td class="px-6 py-4 text-gray-400">{{ $invoice->created_at->format('Y-m-d') }}</td>
                 <td class="px-6 py-4">
                     <div class="flex gap-2">
@@ -127,7 +127,7 @@
         </div>
         <div class="mb-4">
             <div class="text-xs text-gray-400 mb-1">المبلغ</div>
-            <div class="text-green-400 font-bold text-lg">{{ number_format($invoice->total_amount ?? 0, 2) }} جنيه</div>
+            <div class="text-green-400 font-bold text-lg">{{ number_format($invoice->total_amount ?? 0, 2) }} دينار</div>
         </div>
         <div class="grid grid-cols-2 gap-2">
             <a href="{{ route('marketer.invoices.show', $invoice->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all text-center text-sm">
