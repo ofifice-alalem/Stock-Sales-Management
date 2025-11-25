@@ -89,7 +89,7 @@
             @endif
         </nav>
 
-        <div class="p-4 border-t border-white/5">
+        <div class="p-4 border-t border-white/5 {{ auth()->user()->role->name === 'marketer' ? 'pb-24 md:pb-4' : '' }}">
             <div class="flex items-center space-x-3 space-x-reverse mb-3">
                 <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
                     <span class="text-white font-medium">{{ substr(auth()->user()->name, 0, 1) }}</span>
