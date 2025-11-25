@@ -11,21 +11,32 @@ class InvoiceItemSeeder extends Seeder
 {
     public function run(): void
     {
-        $data = [];
-        for ($invoice = 1; $invoice <= 150; $invoice++) {
-            $itemsCount = rand(1, 5);
-            for ($item = 1; $item <= $itemsCount; $item++) {
-                $data[] = [
-                    'invoice_id' => $invoice,
-                    'product_id' => rand(1, 20),
-                    'quantity' => rand(1, 20),
-                    'price' => rand(5, 100) + (rand(0, 99) / 100),
-                    'created_at' => now()->subDays(rand(1, 90)),
-                    'updated_at' => now()
-                ];
+        $products = DB::table('products')->get();
+        
+        for ($invoiceId = 1; $invoiceId <= 150; $invoiceId++) {
+            $invoice = DB::table('invoices')->where('id', $invoiceId)->first();
+            $itemsCount = rand(2, 6);
+            $selectedProducts = $products->random($itemsCount);
+            $totalAmount = 0;
+            
+            foreach ($selectedProducts as $product) {
+                $quantity = rand(5, 30);
+                $itemTotal = $quantity * $product->price;
+                $totalAmount += $itemTotal;
+                
+                DB::table('invoice_items')->insert([
+                    'invoice_id' => $invoiceId,
+                    'product_id' => $product->id,
+                    'quantity' => $quantity,
+                    'price' => $product->price,
+                    'created_at' => $invoice->created_at,
+                    'updated_at' => $invoice->created_at
+                ]);
             }
+            
+            DB::table('invoices')
+                ->where('id', $invoiceId)
+                ->update(['total_amount' => $totalAmount]);
         }
-
-        DB::table('invoice_items')->insert($data);
     }
 }

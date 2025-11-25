@@ -13,15 +13,16 @@ class MarketerStockSeeder extends Seeder
     {
         $data = [];
         for ($marketer = 4; $marketer <= 23; $marketer++) {
-            for ($product = 1; $product <= 20; $product++) {
-                if (rand(1, 3) == 1) {
-                    $data[] = [
-                        'marketer_id' => $marketer,
-                        'product_id' => $product,
-                        'quantity' => rand(0, 50),
-                        'updated_at' => now()
-                    ];
-                }
+            $productsCount = rand(5, 12);
+            $selectedProducts = array_rand(range(1, 20), $productsCount);
+            
+            foreach ($selectedProducts as $product) {
+                $data[] = [
+                    'marketer_id' => $marketer,
+                    'product_id' => $product + 1,
+                    'quantity' => rand(10, 100),
+                    'updated_at' => now()->subDays(rand(1, 30))
+                ];
             }
         }
 

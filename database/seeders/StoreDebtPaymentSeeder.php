@@ -11,36 +11,45 @@ class StoreDebtPaymentSeeder extends Seeder
 {
     public function run(): void
     {
-        $debts = DB::table('store_debts')->get();
-        $data = [];
+        $stores = DB::table('stores')->get();
 
-        foreach ($debts as $debt) {
-            $remainingAmount = $debt->amount;
-            $paymentsCount = rand(1, 3);
+        foreach ($stores as $store) {
+            $totalDebt = DB::table('invoices')
+                ->where('store_id', $store->id)
+                ->sum('total_amount');
+
+            if ($totalDebt <= 0) {
+                continue;
+            }
+
+            $remainingAmount = $totalDebt;
+            $paymentsCount = rand(2, 5);
+            $shouldPayFull = rand(1, 3) === 1;
 
             for ($i = 0; $i < $paymentsCount; $i++) {
                 if ($remainingAmount <= 0) {
                     break;
                 }
 
-                $paymentAmount = $i === $paymentsCount - 1 
-                    ? $remainingAmount 
-                    : rand(50, (int)($remainingAmount * 0.6));
+                if ($shouldPayFull && $i === $paymentsCount - 1) {
+                    $paymentAmount = $remainingAmount;
+                } else {
+                    $maxPayment = min($remainingAmount, $totalDebt * 0.4);
+                    $paymentAmount = rand((int)($maxPayment * 0.3), (int)$maxPayment);
+                }
 
                 $remainingAmount -= $paymentAmount;
 
-                $data[] = [
-                    'store_id' => $debt->store_id,
-                    'marketer_id' => $debt->marketer_id,
+                DB::table('store_debt_payments')->insert([
+                    'store_id' => $store->id,
+                    'marketer_id' => rand(4, 23),
                     'amount' => $paymentAmount,
                     'remaining' => max(0, $remainingAmount),
-                    'note' => rand(0, 1) ? 'دفعة جزئية' : null,
-                    'created_at' => now()->subDays(rand(0, 30)),
+                    'note' => $i === 0 ? 'دفعة أولى' : ($remainingAmount <= 0 ? 'دفعة نهائية' : 'دفعة جزئية'),
+                    'created_at' => now()->subDays(rand(1, 60)),
                     'updated_at' => now()
-                ];
+                ]);
             }
         }
-
-        DB::table('store_debt_payments')->insert($data);
     }
 }
