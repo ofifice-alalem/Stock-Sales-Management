@@ -30,8 +30,9 @@
     <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden"></div>
     @include('partials.sidebar')
     @include('partials.topbar')
+    @include('partials.mobile-menu')
 
-    <div class="md:mr-64 mt-16 p-4 md:p-6">
+    <div class="md:mr-64 mt-16 p-4 md:p-6 {{ auth()->user()->role->name === 'marketer' ? 'mb-20 md:mb-0' : '' }}">
         @yield('content')
     </div>
 

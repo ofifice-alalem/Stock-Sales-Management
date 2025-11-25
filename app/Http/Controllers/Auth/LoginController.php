@@ -43,6 +43,10 @@ class LoginController extends Controller
 
         Auth::login($user);
 
+        if ($user->role->name === 'marketer') {
+            return redirect()->intended(route('marketer.invoices.index'));
+        }
+
         return redirect()->intended('/dashboard');
     }
 

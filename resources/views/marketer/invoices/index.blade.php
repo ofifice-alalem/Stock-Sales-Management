@@ -155,7 +155,7 @@
     @endforelse
 </div>
 
-<div class="mt-6">
+<div class="mt-6 pb-24 md:pb-0">
     {{ $invoices->links() }}
 </div>
 

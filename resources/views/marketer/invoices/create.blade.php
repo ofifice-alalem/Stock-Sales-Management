@@ -1,6 +1,36 @@
 @extends('layouts.admin')
 
 @section('content')
+<!-- Mobile Product Search Modal -->
+<div id="productSearchModal" class="fixed inset-0 bg-black/80 z-[9999] hidden md:hidden">
+    <div class="flex flex-col h-full bg-gray-900">
+        <div class="flex items-center justify-between p-4 border-b border-white/10">
+            <h3 class="text-lg font-bold text-white">اختر منتج</h3>
+            <button onclick="closeProductModal()" class="p-2 hover:bg-white/10 rounded-lg">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="p-4">
+            <input type="text" id="modalSearchInput" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-lg" placeholder="ابحث عن منتج..." autocomplete="off">
+        </div>
+        <div id="modalProductList" class="flex-1 overflow-y-auto px-4 pb-4 space-y-2">
+            @foreach($products as $product)
+                <div class="modal-product-option p-4 bg-white/5 hover:bg-blue-600 rounded-lg cursor-pointer transition-colors border border-white/10" data-id="{{ $product->id }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}" data-stock="{{ $product->quantity }}">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-white font-medium text-lg">{{ $product->name }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-blue-400">المخزون: {{ $product->quantity }}</span>
+                        <span class="text-green-400 font-bold text-lg">{{ number_format($product->price, 2) }} جنيه</span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
 <div class="max-w-5xl">
     <h1 class="text-2xl font-bold text-white mb-6">إضافة فاتورة جديدة</h1>
 
@@ -37,24 +67,24 @@
             </button>
         </div>
 
-        <div class="overflow-visible">
-            <table class="w-full">
+        <div class="overflow-x-auto -mx-6 px-6">
+            <table class="w-full min-w-[800px]">
                 <thead class="bg-white/5">
                     <tr>
-                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">المنتج</th>
-                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">الموجود</th>
-                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">الكمية</th>
-                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">السعر</th>
-                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">الإجمالي</th>
-                        <th class="px-4 py-3 text-center text-sm font-medium text-gray-400">حذف</th>
+                        <th class="px-2 md:px-4 py-3 text-right text-xs md:text-sm font-medium text-gray-400">المنتج</th>
+                        <th class="px-2 md:px-4 py-3 text-right text-xs md:text-sm font-medium text-gray-400">الموجود</th>
+                        <th class="px-2 md:px-4 py-3 text-right text-xs md:text-sm font-medium text-gray-400">الكمية</th>
+                        <th class="px-2 md:px-4 py-3 text-right text-xs md:text-sm font-medium text-gray-400">السعر</th>
+                        <th class="px-2 md:px-4 py-3 text-right text-xs md:text-sm font-medium text-gray-400">الإجمالي</th>
+                        <th class="px-2 md:px-4 py-3 text-center text-xs md:text-sm font-medium text-gray-400">حذف</th>
                     </tr>
                 </thead>
                 <tbody id="productsTable" class="divide-y divide-white/5">
                     <tr class="product-row">
-                        <td class="px-4 py-3">
+                        <td class="px-2 md:px-4 py-3">
                             <div class="relative">
                                 <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." autocomplete="off">
-                                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 dark:bg-gray-800 light-mode:bg-white border border-white/20 light-mode:border-gray-300 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden" style="background: var(--dropdown-bg, #1f2937);">
                                     @foreach($products as $product)
                                         <div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="{{ $product->id }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}" data-stock="{{ $product->quantity }}">
                                             <div class="flex justify-between items-center">
@@ -70,17 +100,17 @@
                             </div>
                             <input type="hidden" name="items[0][product_id]" class="product-id" required>
                         </td>
-                        <td class="px-4 py-3">
-                            <input type="number" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-400 available-stock" value="0" readonly>
+                        <td class="px-2 md:px-4 py-3">
+                            <input type="number" class="w-20 px-2 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-400 text-sm available-stock" value="0" readonly>
                         </td>
-                        <td class="px-4 py-3">
-                            <input type="number" name="items[0][quantity]" value="1" min="1" max="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
+                        <td class="px-2 md:px-4 py-3">
+                            <input type="number" name="items[0][quantity]" value="1" min="1" max="0" class="w-20 px-2 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm quantity-input" required>
                         </td>
-                        <td class="px-4 py-3">
-                            <input type="number" step="0.01" name="items[0][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
+                        <td class="px-2 md:px-4 py-3">
+                            <input type="number" step="0.01" name="items[0][price]" value="0" min="0" class="w-24 px-2 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm price-input" readonly>
                         </td>
-                        <td class="px-4 py-3 text-white font-medium item-total">0.00</td>
-                        <td class="px-4 py-3 text-center">
+                        <td class="px-2 md:px-4 py-3 text-white font-medium text-sm item-total">0.00</td>
+                        <td class="px-2 md:px-4 py-3 text-center">
                             <button type="button" onclick="removeRow(this)" class="text-red-400 hover:text-red-300">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -91,8 +121,8 @@
                 </tbody>
                 <tfoot class="bg-white/5">
                     <tr>
-                        <td colspan="4" class="px-4 py-3 text-right text-white font-bold">الإجمالي الكلي:</td>
-                        <td class="px-4 py-3 text-white font-bold" id="grandTotal">0.00</td>
+                        <td colspan="4" class="px-2 md:px-4 py-3 text-right text-white font-bold text-sm md:text-base">الإجمالي الكلي:</td>
+                        <td class="px-2 md:px-4 py-3 text-white font-bold text-sm md:text-base" id="grandTotal">0.00</td>
                         <td></td>
                     </tr>
                 </tfoot>
@@ -100,7 +130,7 @@
         </div>
     </div>
 
-    <div class="flex gap-4">
+    <div class="flex gap-4 pb-24 md:pb-0">
         <button type="submit" class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-lg transition-all shadow-lg">
             حفظ
         </button>
@@ -111,9 +141,105 @@
     </form>
 </div>
 
+<style>
+.light-mode .product-dropdown {
+    --dropdown-bg: white !important;
+    background: white !important;
+    border-color: #d1d5db !important;
+}
+
+.light-mode .product-option {
+    color: #1f2937 !important;
+}
+
+.light-mode .product-option:hover {
+    background: #3b82f6 !important;
+    color: white !important;
+}
+
+.light-mode .product-option span {
+    color: inherit !important;
+}
+
+.light-mode #productSearchModal > div {
+    background: white !important;
+}
+
+.light-mode .modal-product-option {
+    background: #f3f4f6 !important;
+    color: #1f2937 !important;
+}
+
+.light-mode .modal-product-option:hover {
+    background: #3b82f6 !important;
+    color: white !important;
+}
+
+.light-mode #modalSearchInput {
+    background: #f3f4f6 !important;
+    color: #1f2937 !important;
+    border-color: #d1d5db !important;
+}
+</style>
+
 <script>
 let productIndex = 1;
 const products = @json($products);
+let currentSearchRow = null;
+
+function openProductModal(row) {
+    if (window.innerWidth >= 768) return;
+    currentSearchRow = row;
+    const modal = document.getElementById('productSearchModal');
+    const modalInput = document.getElementById('modalSearchInput');
+    modal.classList.remove('hidden');
+    modalInput.value = '';
+    modalInput.focus();
+    filterModalProducts('');
+}
+
+function closeProductModal() {
+    document.getElementById('productSearchModal').classList.add('hidden');
+    currentSearchRow = null;
+}
+
+function filterModalProducts(searchTerm) {
+    const selectedIds = getSelectedProductIds();
+    const currentProductId = currentSearchRow ? currentSearchRow.querySelector('.product-id').value : '';
+    
+    document.querySelectorAll('.modal-product-option').forEach(option => {
+        const name = option.getAttribute('data-name').toLowerCase();
+        const optionId = option.getAttribute('data-id');
+        const isSelected = selectedIds.includes(optionId) && optionId !== currentProductId;
+        option.style.display = (name.includes(searchTerm.toLowerCase()) && !isSelected) ? 'block' : 'none';
+    });
+}
+
+document.getElementById('modalSearchInput')?.addEventListener('input', function() {
+    filterModalProducts(this.value);
+});
+
+document.querySelectorAll('.modal-product-option').forEach(option => {
+    option.addEventListener('click', function() {
+        if (!currentSearchRow) return;
+        
+        const productId = this.getAttribute('data-id');
+        const productName = this.getAttribute('data-name');
+        const price = this.getAttribute('data-price');
+        const stock = parseInt(this.getAttribute('data-stock'));
+        
+        currentSearchRow.querySelector('.product-search').value = productName;
+        currentSearchRow.querySelector('.product-id').value = productId;
+        currentSearchRow.querySelector('.price-input').value = price || 0;
+        currentSearchRow.querySelector('.available-stock').value = stock;
+        currentSearchRow.querySelector('.quantity-input').max = stock;
+        currentSearchRow.querySelector('.quantity-input').value = Math.min(1, stock);
+        
+        calculateTotal();
+        updateProductOptions();
+        closeProductModal();
+    });
+});
 
 function addProductRow() {
     const tbody = document.getElementById('productsTable');
@@ -126,26 +252,26 @@ function addProductRow() {
     });
     
     row.innerHTML = `
-        <td class="px-4 py-3">
+        <td class="px-2 md:px-4 py-3">
             <div class="relative">
                 <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." autocomplete="off">
-                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden" style="background: var(--dropdown-bg, #1f2937);">
                     ${productOptions}
                 </div>
             </div>
             <input type="hidden" name="items[${productIndex}][product_id]" class="product-id" required>
         </td>
-        <td class="px-4 py-3">
-            <input type="number" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-400 available-stock" value="0" readonly>
+        <td class="px-2 md:px-4 py-3">
+            <input type="number" class="w-20 px-2 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-400 text-sm available-stock" value="0" readonly>
         </td>
-        <td class="px-4 py-3">
-            <input type="number" name="items[${productIndex}][quantity]" value="1" min="1" max="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
+        <td class="px-2 md:px-4 py-3">
+            <input type="number" name="items[${productIndex}][quantity]" value="1" min="1" max="0" class="w-20 px-2 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm quantity-input" required>
         </td>
-        <td class="px-4 py-3">
-            <input type="number" step="0.01" name="items[${productIndex}][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
+        <td class="px-2 md:px-4 py-3">
+            <input type="number" step="0.01" name="items[${productIndex}][price]" value="0" min="0" class="w-24 px-2 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm price-input" readonly>
         </td>
-        <td class="px-4 py-3 text-white font-medium item-total">0.00</td>
-        <td class="px-4 py-3 text-center">
+        <td class="px-2 md:px-4 py-3 text-white font-medium text-sm item-total">0.00</td>
+        <td class="px-2 md:px-4 py-3 text-center">
             <button type="button" onclick="removeRow(this)" class="text-red-400 hover:text-red-300">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -222,8 +348,13 @@ function attachEventListeners(row) {
     const productIdInput = row.querySelector('.product-id');
     
     productSearch.addEventListener('focus', function() {
-        productDropdown.classList.remove('hidden');
-        filterProducts(productDropdown, '');
+        if (window.innerWidth < 768) {
+            openProductModal(row);
+            this.blur();
+        } else {
+            productDropdown.classList.remove('hidden');
+            filterProducts(productDropdown, '');
+        }
     });
     
     productSearch.addEventListener('input', function() {

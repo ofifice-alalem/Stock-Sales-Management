@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Invoice;
 
 use App\DTOs\Invoice\CreateInvoiceDTO;
+use App\Events\InvoiceCreated;
 use App\Models\Invoice;
 use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -46,8 +47,11 @@ class InvoiceService
         }
         
         $invoice->update(['total_amount' => $totalAmount]);
+        $invoice = $invoice->fresh(['items']);
         
-        return $invoice->fresh(['items']);
+        InvoiceCreated::dispatch($invoice);
+        
+        return $invoice;
     }
 
     public function getInvoiceById(int $invoiceId): Invoice
