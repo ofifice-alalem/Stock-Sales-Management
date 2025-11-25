@@ -46,7 +46,7 @@ final class InvoicePdfService
             'priceLabel' => $arabic->utf8Glyphs('السعر'),
             'totalLabel' => $arabic->utf8Glyphs('الإجمالي'),
             'grandTotalLabel' => $arabic->utf8Glyphs('الإجمالي الكلي:'),
-            'currency' => $arabic->utf8Glyphs('جنيه'),
+            'currency' => $arabic->utf8Glyphs('دينار'),
         ];
         
         $pdf = Pdf::loadView('marketer.invoices.pdf', $data)
