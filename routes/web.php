@@ -13,7 +13,12 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('marketer')->name('marketer.')->group(function () {
+        Route::resource('invoices', \App\Http\Controllers\Marketer\MarketerInvoiceController::class);
+        Route::get('earnings', [\App\Http\Controllers\Marketer\MarketerEarningsController::class, 'index'])->name('earnings.index');
+    });
+    
+    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('invoices', \App\Http\Controllers\Admin\InvoiceController::class);
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class);

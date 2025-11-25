@@ -70,6 +70,16 @@ class MarketerRepository implements MarketerRepositoryInterface
             ->get();
     }
 
+    public function getMarketerStockWithDetails(int $marketerId): Collection
+    {
+        return DB::table('marketer_stock')
+            ->join('products', 'marketer_stock.product_id', '=', 'products.id')
+            ->where('marketer_stock.marketer_id', $marketerId)
+            ->where('marketer_stock.quantity', '>', 0)
+            ->select('products.id', 'products.name', 'products.price', 'marketer_stock.quantity')
+            ->get();
+    }
+
     public function addStock(int $marketerId, int $productId, int $quantity): void
     {
         $existing = DB::table('marketer_stock')
@@ -111,5 +121,21 @@ class MarketerRepository implements MarketerRepositoryInterface
                     'updated_at' => now()
                 ]);
         }
+    }
+
+    public function getMarketerEarnings(int $marketerId): Collection
+    {
+        return DB::table('invoice_items')
+            ->join('invoices', 'invoice_items.invoice_id', '=', 'invoices.id')
+            ->join('products', 'invoice_items.product_id', '=', 'products.id')
+            ->where('invoices.marketer_id', $marketerId)
+            ->select(
+                'products.name as product_name',
+                'invoice_items.price',
+                DB::raw('SUM(invoice_items.quantity) as quantity'),
+                DB::raw('SUM(invoice_items.price * invoice_items.quantity) as total')
+            )
+            ->groupBy('products.id', 'products.name', 'invoice_items.price')
+            ->get();
     }
 }

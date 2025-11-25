@@ -1,0 +1,323 @@
+@extends('layouts.admin')
+
+@section('content')
+<div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-white mb-1">تعديل الفاتورة</h1>
+            <p class="text-gray-400">#{{ $invoice->invoice_number }}</p>
+        </div>
+    </div>
+
+    <form action="{{ route('marketer.invoices.update', $invoice->id) }}" method="POST" id="invoiceForm">
+        @csrf
+        @method('PUT')
+
+    <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl mb-6">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+            <h2 class="text-xl font-bold text-white">بيانات الفاتورة</h2>
+        </div>
+            
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="invoice_number" class="block text-sm font-medium text-white mb-2">رقم الفاتورة</label>
+                <input type="text" id="invoice_number" name="invoice_number" value="{{ old('invoice_number', $invoice->invoice_number) }}" 
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-white transition-all @error('invoice_number') border-red-500 @enderror" required>
+                @error('invoice_number')
+                    <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label for="store_id" class="block text-sm font-medium text-white mb-2">المحل</label>
+                <select id="store_id" name="store_id" 
+                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-white transition-all @error('store_id') border-red-500 @enderror" required>
+                    <option value="">اختر المحل</option>
+                    @foreach($stores as $store)
+                        <option value="{{ $store->id }}" {{ old('store_id', $invoice->store_id) == $store->id ? 'selected' : '' }}>{{ $store->name }}</option>
+                    @endforeach
+                </select>
+                @error('store_id')
+                    <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+    </div>
+
+    <div class="stat-card rounded-2xl p-6 border border-white/5 shadow-xl mb-6">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-white">المنتجات</h2>
+            </div>
+            <button type="button" onclick="addProductRow()" class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                إضافة منتج
+            </button>
+        </div>
+
+        <div class="overflow-visible">
+            <table class="w-full">
+                <thead class="bg-white/5">
+                    <tr>
+                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">المنتج</th>
+                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">الموجود</th>
+                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">الكمية</th>
+                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">السعر</th>
+                        <th class="px-4 py-3 text-right text-sm font-medium text-gray-400">الإجمالي</th>
+                        <th class="px-4 py-3 text-center text-sm font-medium text-gray-400">حذف</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTable" class="divide-y divide-white/5">
+                    @foreach($invoice->items as $index => $item)
+                    @php
+                        $availableStock = $products->firstWhere('id', $item->product_id)?->quantity ?? 0;
+                        $maxQuantity = $availableStock + $item->quantity;
+                    @endphp
+                    <tr class="product-row">
+                        <td class="px-4 py-3">
+                            <input type="hidden" name="items[{{ $index }}][id]" value="{{ $item->id }}">
+                            <div class="relative">
+                                <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." value="{{ $item->product->name }}" autocomplete="off">
+                                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                                    @foreach($products as $product)
+                                        <div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="{{ $product->id }}" data-price="{{ $product->price }}" data-name="{{ $product->name }}" data-stock="{{ $product->quantity }}">
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-white font-medium">{{ $product->name }}</span>
+                                                <div class="flex gap-3">
+                                                    <span class="text-blue-400">المخزون: {{ $product->quantity }}</span>
+                                                    <span class="text-green-400 font-bold">{{ number_format($product->price, 2) }} جنيه</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <input type="hidden" name="items[{{ $index }}][product_id]" class="product-id" value="{{ $item->product_id }}" required>
+                        </td>
+                        <td class="px-4 py-3">
+                            <input type="number" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-400 available-stock" value="{{ $maxQuantity }}" readonly>
+                        </td>
+                        <td class="px-4 py-3">
+                            <input type="number" name="items[{{ $index }}][quantity]" value="{{ $item->quantity }}" min="1" max="{{ $maxQuantity }}" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
+                        </td>
+                        <td class="px-4 py-3">
+                            <input type="number" step="0.01" name="items[{{ $index }}][price]" value="{{ $item->price }}" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
+                        </td>
+                        <td class="px-4 py-3 text-white font-medium item-total">{{ number_format($item->price * $item->quantity, 2) }}</td>
+                        <td class="px-4 py-3 text-center">
+                            <button type="button" onclick="removeRow(this)" class="text-red-400 hover:text-red-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot class="bg-white/5">
+                    <tr>
+                        <td colspan="4" class="px-4 py-3 text-right text-white font-bold">الإجمالي الكلي:</td>
+                        <td class="px-4 py-3 text-white font-bold" id="grandTotal">0.00</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-4">
+        <button type="submit" class="flex-1 md:flex-none bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl transition-all shadow-lg font-medium flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            تحديث الفاتورة
+        </button>
+        <a href="{{ route('marketer.invoices.show', $invoice->id) }}" class="flex-1 md:flex-none bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-xl transition-all border border-white/10 flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            إلغاء
+        </a>
+    </div>
+    </form>
+</div>
+
+<script>
+let productIndex = {{ $invoice->items->count() }};
+const products = @json($products);
+
+function addProductRow() {
+    const tbody = document.getElementById('productsTable');
+    const row = document.createElement('tr');
+    row.className = 'product-row';
+    
+    let productOptions = '';
+    products.forEach(product => {
+        productOptions += `<div class="product-option px-4 py-3 hover:bg-blue-600 cursor-pointer border-b border-white/5 transition-colors" data-id="${product.id}" data-price="${product.price}" data-name="${product.name}" data-stock="${product.quantity}"><div class="flex justify-between items-center"><span class="text-white font-medium">${product.name}</span><div class="flex gap-3"><span class="text-blue-400">المخزون: ${product.quantity}</span><span class="text-green-400 font-bold">${parseFloat(product.price).toFixed(2)} جنيه</span></div></div></div>`;
+    });
+    
+    row.innerHTML = `
+        <td class="px-4 py-3">
+            <div class="relative">
+                <input type="text" class="product-search w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-blue-500" placeholder="ابحث عن منتج..." autocomplete="off">
+                <div class="product-dropdown absolute z-[9999] w-full mt-1 bg-gray-800 border border-white/20 rounded-lg shadow-2xl max-h-60 overflow-y-auto hidden">
+                    ${productOptions}
+                </div>
+            </div>
+            <input type="hidden" name="items[${productIndex}][product_id]" class="product-id" required>
+        </td>
+        <td class="px-4 py-3">
+            <input type="number" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-400 available-stock" value="0" readonly>
+        </td>
+        <td class="px-4 py-3">
+            <input type="number" name="items[${productIndex}][quantity]" value="1" min="1" max="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white quantity-input" required>
+        </td>
+        <td class="px-4 py-3">
+            <input type="number" step="0.01" name="items[${productIndex}][price]" value="0" min="0" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white price-input" readonly>
+        </td>
+        <td class="px-4 py-3 text-white font-medium item-total">0.00</td>
+        <td class="px-4 py-3 text-center">
+            <button type="button" onclick="removeRow(this)" class="text-red-400 hover:text-red-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+            </button>
+        </td>
+    `;
+    
+    tbody.appendChild(row);
+    productIndex++;
+    attachEventListeners(row);
+    calculateTotal();
+}
+
+function removeRow(button) {
+    const rows = document.querySelectorAll('.product-row');
+    if (rows.length <= 1) {
+        alert('لا يمكن حذف جميع المنتجات. يجب أن تحتوي الفاتورة على منتج واحد على الأقل.');
+        return;
+    }
+    if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+        button.closest('tr').remove();
+        calculateTotal();
+        updateProductOptions();
+    }
+}
+
+function calculateTotal() {
+    let grandTotal = 0;
+    document.querySelectorAll('.product-row').forEach(row => {
+        const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
+        const price = parseFloat(row.querySelector('.price-input').value) || 0;
+        const total = quantity * price;
+        row.querySelector('.item-total').textContent = total.toFixed(2);
+        grandTotal += total;
+    });
+    document.getElementById('grandTotal').textContent = grandTotal.toFixed(2);
+}
+
+function getSelectedProductIds() {
+    const selectedIds = [];
+    document.querySelectorAll('.product-row').forEach(row => {
+        const productId = row.querySelector('.product-id').value;
+        if (productId) {
+            selectedIds.push(productId);
+        }
+    });
+    return selectedIds;
+}
+
+function updateProductOptions() {
+    const selectedIds = getSelectedProductIds();
+    document.querySelectorAll('.product-row').forEach(row => {
+        const currentProductId = row.querySelector('.product-id').value;
+        row.querySelectorAll('.product-option').forEach(option => {
+            const optionId = option.getAttribute('data-id');
+            if (selectedIds.includes(optionId) && optionId !== currentProductId) {
+                option.style.display = 'none';
+            } else {
+                const searchTerm = row.querySelector('.product-search').value.toLowerCase();
+                const name = option.getAttribute('data-name').toLowerCase();
+                option.style.display = name.includes(searchTerm) ? 'block' : 'none';
+            }
+        });
+    });
+}
+
+function attachEventListeners(row) {
+    row.querySelector('.quantity-input').addEventListener('input', calculateTotal);
+    row.querySelector('.price-input').addEventListener('input', calculateTotal);
+    
+    const productSearch = row.querySelector('.product-search');
+    const productDropdown = row.querySelector('.product-dropdown');
+    const productIdInput = row.querySelector('.product-id');
+    
+    productSearch.addEventListener('focus', function() {
+        productDropdown.classList.remove('hidden');
+        filterProducts(productDropdown, '');
+    });
+    
+    productSearch.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        filterProducts(productDropdown, searchTerm);
+        productDropdown.classList.remove('hidden');
+    });
+    
+    productDropdown.querySelectorAll('.product-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            const productName = this.getAttribute('data-name');
+            const price = this.getAttribute('data-price');
+            const stock = parseInt(this.getAttribute('data-stock'));
+            
+            productSearch.value = productName;
+            productIdInput.value = productId;
+            productDropdown.classList.add('hidden');
+            row.querySelector('.price-input').value = price || 0;
+            row.querySelector('.available-stock').value = stock;
+            row.querySelector('.quantity-input').max = stock;
+            row.querySelector('.quantity-input').value = Math.min(1, stock);
+            calculateTotal();
+            updateProductOptions();
+        });
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!row.contains(e.target)) {
+            productDropdown.classList.add('hidden');
+        }
+    });
+}
+
+function filterProducts(dropdown, searchTerm) {
+    const selectedIds = getSelectedProductIds();
+    const currentRow = dropdown.closest('.product-row');
+    const currentProductId = currentRow.querySelector('.product-id').value;
+    
+    const options = dropdown.querySelectorAll('.product-option');
+    options.forEach(option => {
+        const name = option.getAttribute('data-name').toLowerCase();
+        const optionId = option.getAttribute('data-id');
+        const isSelected = selectedIds.includes(optionId) && optionId !== currentProductId;
+        option.style.display = (name.includes(searchTerm) && !isSelected) ? 'block' : 'none';
+    });
+}
+
+document.querySelectorAll('.product-row').forEach(attachEventListeners);
+calculateTotal();
+updateProductOptions();
+</script>
+@endsection

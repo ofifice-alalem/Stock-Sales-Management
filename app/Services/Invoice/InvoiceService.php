@@ -87,6 +87,8 @@ class InvoiceService
 
     public function deleteInvoice(int $invoiceId): bool
     {
+        $invoice = $this->invoiceRepository->findById($invoiceId);
+        $invoice->items()->delete();
         return $this->invoiceRepository->delete($invoiceId);
     }
 }

@@ -1,6 +1,11 @@
-<div class="fixed top-0 left-0 right-64 h-16 glass-effect border-b border-white/5 flex items-center justify-between px-6 z-20 shadow-lg">
+<div class="fixed top-0 left-0 md:right-64 right-0 h-16 glass-effect border-b border-white/5 flex items-center justify-between px-4 md:px-6 z-20 shadow-lg">
     <div class="flex items-center space-x-4 space-x-reverse">
-        <h1 class="text-xl font-bold text-white">@yield('page-title', 'لوحة التحكم')</h1>
+        <button id="menuBtn" class="md:hidden p-2 rounded-lg transition-all duration-200 hover:bg-white/10">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+        <h1 class="text-lg md:text-xl font-bold text-white">@yield('page-title', 'لوحة التحكم')</h1>
     </div>
     <button id="globalThemeBtn" class="p-2 rounded-lg transition-all duration-200 hover:bg-white/10">
         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

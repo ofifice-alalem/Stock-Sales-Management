@@ -136,3 +136,4 @@ body.light-mode .from-purple-600{--tw-gradient-from:#9333ea!important;color:#fff
 body.light-mode .to-blue-600{--tw-gradient-to:#2563eb!important}
 body.light-mode .bg-gradient-to-r.from-purple-600.to-blue-600{color:#fff!important}
 body.light-mode .bg-gradient-to-r.from-purple-600.to-blue-600 *{color:#fff!important}
+body.light-mode #menuBtn svg{color:#111827!important;stroke:#111827!important}

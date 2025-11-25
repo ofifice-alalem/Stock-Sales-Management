@@ -27,16 +27,20 @@
     </style>
 </head>
 <body class="min-h-screen">
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-20 hidden md:hidden"></div>
     @include('partials.sidebar')
     @include('partials.topbar')
 
-    <div class="mr-64 mt-16 p-6">
+    <div class="md:mr-64 mt-16 p-4 md:p-6">
         @yield('content')
     </div>
 
     <script>
         const themeBtn = document.getElementById('globalThemeBtn');
         const body = document.body;
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const menuBtn = document.getElementById('menuBtn');
         
         const currentTheme = localStorage.getItem('theme') || 'dark';
         if (currentTheme === 'light') {
@@ -48,6 +52,22 @@
             const theme = body.classList.contains('light-mode') ? 'light' : 'dark';
             localStorage.setItem('theme', theme);
         });
+
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+        }
+
+        menuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
     </script>
 </body>
 </html>

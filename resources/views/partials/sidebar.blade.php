@@ -1,6 +1,11 @@
-<div class="fixed inset-y-0 right-0 w-64 glass-effect border-l border-white/5 transform transition-transform duration-300 ease-in-out z-30 shadow-2xl">
+<div id="sidebar" class="fixed inset-y-0 right-0 w-64 glass-effect border-l border-white/5 transform transition-transform duration-300 ease-in-out z-30 shadow-2xl md:translate-x-0 translate-x-full">
     <div class="flex flex-col h-full">
-        <div class="flex items-center justify-center h-16 border-b border-white/5">
+        <div class="flex items-center justify-between h-16 border-b border-white/5 px-4">
+            <button id="closeSidebarBtn" class="md:hidden p-2 rounded-lg transition-all duration-200 hover:bg-white/10">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
             <div class="flex items-center space-x-2 space-x-reverse">
                 <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -20,46 +25,68 @@
                 </div>
                 <span class="font-medium">لوحة التحكم</span>
             </a>
-            <a href="{{ route('admin.products.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.products.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
-                <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.products.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                    </svg>
-                </div>
-                <span class="font-medium">إدارة المنتجات</span>
-            </a>
-            <a href="{{ route('admin.invoices.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.invoices.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
-                <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.invoices.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                </div>
-                <span class="font-medium">إدارة الفواتير</span>
-            </a>
-            <a href="{{ route('admin.users.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.users.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
-                <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.users.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                    </svg>
-                </div>
-                <span class="font-medium">إدارة المستخدمين</span>
-            </a>
-            <a href="{{ route('admin.marketers.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.marketers.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
-                <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.marketers.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                </div>
-                <span class="font-medium">المسوقين</span>
-            </a>
-            <a href="{{ route('admin.store-debts.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.store-debts.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
-                <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.store-debts.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                </div>
-                <span class="font-medium">ديون المحلات</span>
-            </a>
+
+            @if(auth()->user()->role->name === 'admin')
+                <a href="{{ route('admin.products.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.products.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.products.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">إدارة المنتجات</span>
+                </a>
+                <a href="{{ route('admin.invoices.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.invoices.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.invoices.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">إدارة الفواتير</span>
+                </a>
+                <a href="{{ route('admin.users.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.users.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.users.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">إدارة المستخدمين</span>
+                </a>
+                <a href="{{ route('admin.marketers.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.marketers.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.marketers.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">المسوقين</span>
+                </a>
+                <a href="{{ route('admin.store-debts.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('admin.store-debts.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('admin.store-debts.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 4 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">ديون المحلات</span>
+                </a>
+            @endif
+
+            @if(auth()->user()->role->name === 'marketer')
+                <a href="{{ route('marketer.invoices.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('marketer.invoices.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('marketer.invoices.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">فواتيري</span>
+                </a>
+                <a href="{{ route('marketer.earnings.index') }}" class="group flex items-center px-4 py-3.5 text-gray-300 rounded-xl transition-all duration-200 {{ request()->routeIs('marketer.earnings.*') ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg shadow-purple-500/20 pointer-events-none' : 'hover:bg-white/10 hover:text-white' }}">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg transition-all duration-200 ml-3 {{ request()->routeIs('marketer.earnings.*') ? 'bg-white/20' : 'bg-white/5 group-hover:bg-white/10' }}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-medium">أرباحي</span>
+                </a>
+            @endif
         </nav>
 
         <div class="p-4 border-t border-white/5">
