@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('invoices', \App\Http\Controllers\Admin\InvoiceController::class);
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
         
+        Route::get('stores', [\App\Http\Controllers\Admin\StoreController::class, 'index'])->name('stores.index');
+        
         Route::get('marketers', [\App\Http\Controllers\Admin\MarketerController::class, 'index'])->name('marketers.index');
         Route::get('marketers/{marketerId}/add-stock', [\App\Http\Controllers\Admin\MarketerController::class, 'addStockForm'])->name('marketers.add-stock');
         Route::post('marketers/{marketerId}/add-stock', [\App\Http\Controllers\Admin\MarketerController::class, 'addStock'])->name('marketers.add-stock.store');

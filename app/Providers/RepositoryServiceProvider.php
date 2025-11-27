@@ -14,6 +14,8 @@ use App\Repositories\Interfaces\StoreDebtRepositoryInterface;
 use App\Repositories\StoreDebtRepository;
 use App\Repositories\Interfaces\MarketerRepositoryInterface;
 use App\Repositories\MarketerRepository;
+use App\Repositories\Interfaces\StoreRepositoryInterface;
+use App\Repositories\StoreRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -25,5 +27,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(InvoiceRepositoryInterface::class, InvoiceRepository::class);
         $this->app->bind(StoreDebtRepositoryInterface::class, StoreDebtRepository::class);
         $this->app->bind(MarketerRepositoryInterface::class, MarketerRepository::class);
+        $this->app->bind(StoreRepositoryInterface::class, StoreRepository::class);
     }
 }
