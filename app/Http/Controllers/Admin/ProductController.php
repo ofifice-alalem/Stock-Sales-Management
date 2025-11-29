@@ -97,4 +97,10 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')
             ->with('success', 'تم حذف المنتج بنجاح');
     }
+    
+    public function managePrices(): View
+    {
+        $products = Product::orderBy('name')->get();
+        return view('admin.products.prices', compact('products'));
+    }
 }
